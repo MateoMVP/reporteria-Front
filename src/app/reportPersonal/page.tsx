@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import AXIOS from "../config/axios"; // Axios config
 import { useRouter } from "next/navigation"; // Para manejar la navegación
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import Button from "./template/components/Button";
 
 interface InfoReporte {
   _id: string;
@@ -18,61 +19,73 @@ interface reportesPerTecnico {
   [name_tecnico: string]: InfoReporte[];
 }
 
-// const data_chat: InfoReporte[] = [
-//     {
-//         _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-//         KioskId: 74473,
-//         fecha: "2022-05-19",
-//         address: "67807 Pamela Forest",
-//         city: "Millston",
-//         state: "CT",
-//         zipCode: "85283",
-//         name_tecnico: "Erica Rodriguez",
-//     },
-//     {
-//         _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-//         KioskId: 74473,
-//         fecha: "2022-05-19",
-//         address: "67807 Pamela Forest",
-//         city: "Millston",
-//         state: "CT",
-//         zipCode: "85283",
-//         name_tecnico: "Mateo Velasquez",
-//       },
-//       {
-//         _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-//         KioskId: 74473,
-//         fecha: "2022-05-19",
-//         address: "67807 Pamela Forest",
-//         city: "Millston",
-//         state: "CT",
-//         zipCode: "85283",
-//         name_tecnico: "Mateo Velasquez",
-//       },
-//       {
-//         _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-//         KioskId: 74473,
-//         fecha: "2022-05-19",
-//         address: "67807 Pamela Forest",
-//         city: "Millston",
-//         state: "CT",
-//         zipCode: "85283",
-//         name_tecnico: "Johan Gonzales",
-//       },
-//       {
-//         _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-//         KioskId: 74473,
-//         fecha: "2022-05-19",
-//         address: "67807 Pamela Forest",
-//         city: "Millston",
-//         state: "CT",
-//         zipCode: "85283",
-//         name_tecnico: "Erica Rodriguez",
-//       },
-// ]
+const datosPrueba: InfoReporte[] = [
+  {
+    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    KioskId: 74473,
+    fecha: "2022-05-19",
+    address: "67807 Pamela Forest",
+    city: "Millston",
+    state: "CT",
+    zipCode: "85283",
+    name_tecnico: "Johan S",
+  },
+  {
+    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    KioskId: 74473,
+    fecha: "2022-05-19",
+    address: "67807 Pamela Forest",
+    city: "Millston",
+    state: "CT",
+    zipCode: "85283",
+    name_tecnico: "Erica Rodriguez",
+  },
+  {
+    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    KioskId: 74473,
+    fecha: "2022-05-19",
+    address: "67807 Pamela Forest",
+    city: "Millston",
+    state: "CT",
+    zipCode: "85283",
+    name_tecnico: "Mateo V",
+  },
+  {
+    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    KioskId: 74473,
+    fecha: "2022-05-19",
+    address: "67807 Pamela Forest",
+    city: "Millston",
+    state: "CT",
+    zipCode: "85283",
+    name_tecnico: "Erica Rodriguez",
+  },
+  {
+    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    KioskId: 74473,
+    fecha: "2022-05-19",
+    address: "67807 Pamela Forest",
+    city: "Millston",
+    state: "CT",
+    zipCode: "85283",
+    name_tecnico: "Johan S",
+  },
+  {
+    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    KioskId: 74473,
+    fecha: "2022-05-19",
+    address: "67807 Pamela Forest",
+    city: "Millston",
+    state: "CT",
+    zipCode: "85283",
+    name_tecnico: "Mateo v",
+  },
+  // Puedes agregar más objetos si lo deseas
+];
+
 
 function ReportesTecnico() {
-  const [reportes, setReportes] = useState<InfoReporte[]>([]); // Datos de los reportes
+  const [reportes, setReportes] = useState<InfoReporte[]>(datosPrueba); // Datos de los reportes
   const [loading, setLoading] = useState(false);
   const router = useRouter(); // Para redirigir
 
@@ -119,6 +132,7 @@ function ReportesTecnico() {
         Reportes por Técnico
       </h1>
       <div className="w-full max-w-6xl overflow-x-auto">
+        <Button />
         {loading ? (
           <div className="text-center">Cargando datos...</div>
         ) : (
