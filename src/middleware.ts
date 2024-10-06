@@ -5,9 +5,14 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("authToken"); // Usamos las cookies del servidor
   if (!token) {
     // Redirigir al login si no hay token
-    return NextResponse.redirect(new URL("/", request.url));
+    const clonedUrl = request.nextUrl.clone();
+    return NextResponse.rewrite(clonedUrl);
   } else if (token && request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    const clonedUrl = request.nextUrl.clone();
+    clonedUrl.pathname = "/dashboard";
+    return NextResponse.redirect(clonedUrl);
+  } else {
+    return NextResponse.next();
   }
   // Si hay token, permitir el acceso a la página solicitada
   return NextResponse.next();
