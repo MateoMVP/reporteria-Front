@@ -1,3 +1,4 @@
+import customImageLoader from "@/app/controllers/imageLoader";
 import { ReporteTrabajo } from "@/app/interfaces/Reporte_trabajo";
 
 type Props = {
@@ -16,22 +17,38 @@ export default function ImagesReport({
     <div className="grid grid-cols-2 w-full place-items-center gap-3 pb-4">
       <div className="w-[300px] h-[300px]">
         {PictAft && (
-          <img className="w-[300px] h-[300px]" src={PictAft} alt="" />
+          <img
+            className="w-[300px] h-[300px]"
+            src={customImageLoader({ src: PictAft })}
+            alt=""
+          />
         )}
       </div>
       <div className="w-[300px] h-[300px]">
         {PictBOX && (
-          <img className="w-[300px] h-[300px]" src={PictBOX} alt="" />
+          <img
+            className="w-[300px] h-[300px]"
+            src={customImageLoader({ src: PictBOX })}
+            alt=""
+          />
         )}
       </div>
       <div className="w-[300px] h-[300px]">
         {PictBef && (
-          <img className="w-[300px] h-[300px]" src={PictBef} alt="" />
+          <img
+            className="w-[300px] h-[300px]"
+            src={customImageLoader({ src: PictBef })}
+            alt=""
+          />
         )}
       </div>
       <div className="w-[300px] h-[300px]">
         {PictDef && (
-          <img className="w-[300px] h-[300px]" src={PictDef} alt="" />
+          <img
+            className="w-[300px] h-[300px]"
+            src={customImageLoader({ src: PictDef })}
+            alt=""
+          />
         )}
       </div>
     </div>
