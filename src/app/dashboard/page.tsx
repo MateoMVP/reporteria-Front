@@ -2,88 +2,16 @@
 import React, { useState, useEffect } from "react";
 import AXIOS from "../config/axios"; // Axios config
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface dataDashboard {
   KioskId: number;
   fecha: string;
   nota: string;
   name_tecnico: string;
-  store_Id: number;
-  _id:string;
+  store_id: number;
+  _id: string;
 }
-
-// const data_chat: dataDashboard[] = [
-//   {
-//     KioskId: 923,
-//     fecha: "2020-04-28",
-//     nota: "Respond claim entire.",
-//     name_tecnico: "Danielle Vasquez",
-//     store_Id: 235,
-//   },
-//   {
-//     KioskId: 535,
-//     fecha: "2023-01-01",
-//     nota: "Fast carry fine spend.",
-//     name_tecnico: "Christina Valdez",
-//     store_Id: 671,
-//   },
-//   {
-//     KioskId: 838,
-//     fecha: "2020-11-23",
-//     nota: "Improve somebody body movie smile certain.",
-//     name_tecnico: "Lauren Day",
-//     store_Id: 902,
-//   },
-//   {
-//     KioskId: 921,
-//     fecha: "2022-01-12",
-//     nota: "Capital film space.",
-//     name_tecnico: "Tina Rodriguez MD",
-//     store_Id: 297,
-//   },
-//   {
-//     KioskId: 110,
-//     fecha: "2022-07-29",
-//     nota: "Radio world total receive.",
-//     name_tecnico: "Elizabeth Schmidt",
-//     store_Id: 561,
-//   },
-//   {
-//     KioskId: 175,
-//     fecha: "2023-03-07",
-//     nota: "Someone reality guess however entire.",
-//     name_tecnico: "Steven Harris",
-//     store_Id: 435,
-//   },
-//   {
-//     KioskId: 285,
-//     fecha: "2021-10-15",
-//     nota: "Mission nature song third top current.",
-//     name_tecnico: "Christina Williams",
-//     store_Id: 789,
-//   },
-//   {
-//     KioskId: 951,
-//     fecha: "2023-06-18",
-//     nota: "Color several design across statement include.",
-//     name_tecnico: "Patrick Griffin",
-//     store_Id: 123,
-//   },
-//   {
-//     KioskId: 201,
-//     fecha: "2022-08-22",
-//     nota: "Mission fill visit report beyond event.",
-//     name_tecnico: "Michael Miller",
-//     store_Id: 670,
-//   },
-//   {
-//     KioskId: 770,
-//     fecha: "2023-02-24",
-//     nota: "Off concern modern leader out player.",
-//     name_tecnico: "Susan Green",
-//     store_Id: 453,
-//   },
-// ];
 
 function Dashboard() {
   const [data, setData] = useState<dataDashboard[]>([]); // Usamos la interfaz ReporteTrabajo para tipar los datos
@@ -96,7 +24,8 @@ function Dashboard() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await AXIOS.get(`/kiosks?page=${currentPage}`);
+        const response = await AXIOS.get(`/reportes`);
+        console.log("response", response.data);
         setData(response.data); // Llenamos la tabla con los datos
         setLoading(false);
       } catch (error) {
@@ -116,13 +45,17 @@ function Dashboard() {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
   };
 
+  const router = useRouter();
+  const openReport = (url: string) => {
+    router.push("/reporte/" + url);
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 pr-6 pl-4 px-4 sm:px-6 sm:pl-6 lg:px-8">
       <ToastContainer />
       <h1 className="text-3xl font-bold mb-4 text-center text-[#1E3A8A]">
         Dashboard
       </h1>
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-4xl flex items-center flex-col justify-center p-2">
         <table className="min-w-full bg-white border-collapse border border-gray-400">
           <thead>
             <tr>
@@ -144,15 +77,20 @@ function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {loading ? (
+            {loading && !data ? (
               <tr>
                 <td colSpan={5} className="text-center py-4">
                   Cargando datos...
                 </td>
               </tr>
             ) : (
+              (console.log(data),
               data.map((row) => (
-                <tr key={row.KioskId}>
+                <tr
+                  className="hover:bg-gray-200  cursor-pointer"
+                  onClick={() => openReport(row._id)}
+                  key={row.KioskId}
+                >
                   <td className="px-4 py-2 border border-gray-400 text-center">
                     {row.KioskId}
                   </td>
@@ -167,10 +105,10 @@ function Dashboard() {
                     {row.nota}
                   </td>
                   <td className="px-4 py-2 border border-gray-400 text-center">
-                    {row.store_Id}
+                    {row.store_id}
                   </td>
                 </tr>
-              ))
+              )))
             )}
           </tbody>
         </table>

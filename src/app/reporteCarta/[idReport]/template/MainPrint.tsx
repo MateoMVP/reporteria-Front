@@ -4,6 +4,7 @@ import InfoReport from "./components/InfoReport";
 import InfoLine from "./components/InfoLine";
 import Note from "./components/Note";
 import ImagesReport from "./components/Images";
+import AXIOS from "@/app/config/axios";
 
 interface Props {
   reporte: {
@@ -24,34 +25,61 @@ interface Props {
   };
 }
 
-export default function MainPrint({ reporte }: Props) {
-  return (
-    <div className="grid w-full place-items-center bg-gray-500">
-      <div className="p-2 bg-white w-[816px] md:px-5 m-4">
-        <div>
-          <Header />
+const datas = {
+  KioskId: "KioskId",
+  fecha: new Date().toISOString().split("T")[0],
+  PictBOX: "https://via.placeholder.com/450",
+  PictBef: "https://via.placeholder.com/450",
+  PictDef: "https://via.placeholder.com/450",
+  PictAft: "https://via.placeholder.com/450",
+  nota: "nota de pruebas para el reporte",
+  name_tecnico: "YACKEY DEGDE",
+  address: "955 S Woodland Blvd",
+  city: "LOS ANGELES",
+  state: "LA",
+  zip: "12345",
+  code: 123,
+  store_id: "123124",
+};
 
-          <InfoReport
-            zip={reporte.zip}
-            state={reporte.state}
-            city={reporte.city}
-            address={reporte.address}
-            code={reporte.code}
-            fecha={reporte.fecha}
-          />
-          <InfoLine
-            KioskId={reporte.KioskId}
-            ParentName="Wal-Mart Stores Inc"
-            tienda="Walmart Neighborhood Market"
-            store_id={reporte.store_id}
-            tecnico={reporte.name_tecnico}
-          />
-          <Note note={reporte.nota} />
-          <ImagesReport {...reporte} />
-          <div className="w-full bg-black h-[1px]" />
-          <div className="p-2  font-bold text-red-500">RED BOX</div>
+export default async function MainPrint({ reporteId }: { reporteId: string }) {
+  try {
+    const data = (
+      await AXIOS.get<Props | { error: string }>("/reporte/" + reporteId)
+    ).data;
+    if ("reporte" in data) {
+      const reporte = data.reporte;
+      return (
+        <div className="grid w-full place-items-center bg-gray-500">
+          <div className="p-2 bg-white w-[816px] md:px-5 m-4">
+            <div>
+              <Header />
+              <InfoReport
+                zip={reporte.zip}
+                state={reporte.state}
+                city={reporte.city}
+                address={reporte.address}
+                code={reporte.code}
+                fecha={reporte.fecha}
+              />
+              <InfoLine
+                KioskId={reporte.KioskId}
+                ParentName="Wal-Mart Stores Inc"
+                tienda="Walmart Neighborhood Market"
+                store_id={reporte.store_id}
+                tecnico={reporte.name_tecnico}
+              />
+              <Note note={reporte.nota} />
+              <ImagesReport {...reporte} />
+              <div className="w-full bg-black h-[1px]" />
+              <div className="p-2  font-bold text-red-500">RED BOX</div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
+      );
+    }
+    return <div className="text-red-500">{data.error}</div>;
+  } catch (e) {
+    return <div className="text-red-500">Error</div>;
+  }
 }

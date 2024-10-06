@@ -1,6 +1,6 @@
 import MainPrint from "./template/MainPrint";
 
-function Reportpdf({ params }: { params: { idReport: string } }) {
+function CreateReport({ params }: { params: { idReport: string } }) {
   // console.log(params);
   return (
     <div className="w-full">
@@ -9,4 +9,4 @@ function Reportpdf({ params }: { params: { idReport: string } }) {
   );
 }
 
-export default Reportpdf;
+export default CreateReport;
