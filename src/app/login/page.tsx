@@ -1,71 +1,131 @@
-import React,{ChangeEvent, useState} from "react";
-import axios from "axios";
-
+"use client";
+import React, { ChangeEvent, useState } from "react";
+import AXIOS from "../config/axios";
+import Cookies from "js-cookie";
+import type { UserInterface } from "../interfaces/User";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 function Login() {
+  const [username, setUsername] = useState<UserInterface["username"]>("");
+  const [password, setPassword] = useState<UserInterface["password"]>("");
 
-  const [username,setUsername] = useState<string>();
-  const [password,serPassword] = useState();
-
-  const handleUsernameChange = (e:ChangeEvent<HTMLInputElement>) => {
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.currentTarget.value);
-  }
+  };
 
-  
-  
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.currentTarget.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await AXIOS.post("/login", {
+        username: username,
+        password: password,
+      });
+
+      if (response.status === 200) {
+        toast.success("Login success", {
+          position: "top-right",
+          autoClose: 3000,
+          closeOnClick: true,
+          transition: Bounce,
+        });
+        const { token } = response.data;
+        console.log("Se recibió el token", token);
+        Cookies.set("authToken", token);
+      } else {
+        console.error("Error de autenticación");
+        // toast.error("Login error", {
+        //   position: "top-center",
+        //   autoClose: 2000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "light",
+        // });
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de autenticación", error);
+      // toast.error("Login error", {
+      //   position: "top-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "light",
+      // });
+    }
+  };
+
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form action="#" method="POST" className="space-y-6">
-        <div>
-          <label
-            htmlFor="username"
-            className="block text-sm font-medium leading-6 text-gray-100"
-          >
-            Username
-          </label>
-          <input
-            onChange={(e)=>e}
-            id="username"
-            name="username"
-            type="text"
-            required
-            autoComplete="username"
-            placeholder="Username"
-            className="block w-full border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-50 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          ></input>
+    <>
+      <ToastContainer />
+      <div className="flex min-h-screen items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md space-y-8">
+          {/* Título del Login */}
+          <h2 className="mt-10 text-center text-4xl font-bold text-blue-900">
+            Login
+          </h2>
+          <form onSubmit={handleSubmit} className="mt-10 space-y-6">
+            <div className="rounded-md shadow-sm space-y-4">
+              <div>
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Username
+                </label>
+                <input
+                  onChange={handleUsernameChange}
+                  id="username"
+                  name="username"
+                  type="text"
+                  required
+                  value={username || ""}
+                  autoComplete="username"
+                  placeholder="Username"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Password
+                </label>
+                <input
+                  onChange={handlePasswordChange}
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  value={password || ""}
+                  autoComplete="current-password"
+                  placeholder="Password"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm"
+                />
+              </div>
+            </div>
+            <div>
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
         </div>
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium leading-6 text-gray-100"
-          >
-            Password
-          </label>
-          <div className="text-sm">
-            <a href="#" className="text-indigo-600 hover:text-indigo-500">
-              Forgot password?
-            </a>
-          </div>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            autoComplete="current-password"
-            placeholder="Password"
-            className="block w-full border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          ></input>
-        </div>
-        <div>
-          <button
-            type="submit"
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Sign in
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+    </>
   );
 }
 
