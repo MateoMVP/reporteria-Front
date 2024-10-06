@@ -132,7 +132,7 @@ function ReportesTecnico() {
         Reportes por Técnico
       </h1>
       <div className="w-full max-w-6xl overflow-x-auto">
-        <Button />
+        <Button ruta="/dashboard"/>
         {loading ? (
           <div className="text-center">Cargando datos...</div>
         ) : (

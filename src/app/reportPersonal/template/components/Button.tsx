@@ -2,11 +2,15 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const Button: React.FC = () => {
+interface ButtonProps{
+    ruta: string;
+}
+
+const Button: React.FC<ButtonProps> = ({ruta}) => {
   const router = useRouter();
 
   const handleGoHome = () => {
-    router.push("/dashboard");
+    router.push(ruta);
   };
 
   return (
