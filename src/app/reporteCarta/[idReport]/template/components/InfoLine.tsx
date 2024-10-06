@@ -27,10 +27,9 @@ export default function InfoLine({
       </div>
       <div className="flex gap-2 flex-col">
         <div className="bg-white rounded p-1">{ParentName}</div>
-        <div className="bg-white rounded p-1">{tienda}</div>
         <div className="flex gap-2 flex-row items-center">
           <span className="text-gray-500">Tech: </span>
-          <div className="bg-white rounded p-1">{tienda}</div>
+          <div className="bg-white rounded p-1">{tecnico}</div>
         </div>
       </div>
     </div>

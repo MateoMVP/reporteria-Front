@@ -15,37 +15,37 @@ export default function ImagesReport({
 }: Props) {
   return (
     <div className="grid grid-cols-2 w-full place-items-center gap-3 pb-4">
-      <div className="w-[300px] h-[300px]">
+      <div className="w-[255px] h-[255px]">
         {PictAft && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[255px] h-[255px]"
             src={customImageLoader({ src: PictAft })}
             alt=""
           />
         )}
       </div>
-      <div className="w-[300px] h-[300px]">
+      <div className="w-[255px] h-[255px]">
         {PictBOX && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[255px] h-[255px]"
             src={customImageLoader({ src: PictBOX })}
             alt=""
           />
         )}
       </div>
-      <div className="w-[300px] h-[300px]">
+      <div className="w-[255px] h-[255px]">
         {PictBef && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[255px] h-[255px]"
             src={customImageLoader({ src: PictBef })}
             alt=""
           />
         )}
       </div>
-      <div className="w-[300px] h-[300px]">
+      <div className="w-[255px] h-[255px]">
         {PictDef && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[255px] h-[255px]"
             src={customImageLoader({ src: PictDef })}
             alt=""
           />

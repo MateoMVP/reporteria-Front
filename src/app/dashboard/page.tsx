@@ -59,7 +59,7 @@ function Dashboard() {
   const [toastRef, setToastRef] = useState<null | number | string>(null);
 
   const printer = async (id: string, kiosk: string) => {
-    const toastId = toast.info("Generando reporte...", { autoClose: false });
+    const toastId = toast.info("In process...", { autoClose: false });
 
     try {
       // Asegúrate de que la URL esté apuntando al servidor backend (3005)
@@ -75,17 +75,51 @@ function Dashboard() {
       document.body.removeChild(link);
 
       toast.update(toastId, {
-        render: "Reporte generado exitosamente.",
+        render: "Success.",
         autoClose: 3000,
       });
     } catch (error: any) {
       console.error("Error al generar el reporte:", error);
       toast.update(toastId, {
-        render: "Error al generar el reporte.",
+        render: "Error.",
         autoClose: 5000,
       });
     } finally {
       setDownloadProgress(null);
+    }
+  };
+  const printerAll = async () => {
+    const toastId = toast.info("In process..", { autoClose: false });
+    try {
+      const response = await AXIOS.get("/reportes/pdf", {
+        responseType: "blob", // Importante para manejar archivos binarios
+      });
+
+      // Crear una URL para el blob recibido
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Crear un elemento de enlace temporal
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "reportes.zip"); // Nombre del archivo a descargar
+
+      // Agregar el enlace al DOM y hacer clic en él
+      document.body.appendChild(link);
+      link.click();
+
+      // Limpiar
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      toast.update(toastId, {
+        render: "Success.",
+        autoClose: 3000,
+      });
+    } catch (error) {
+      console.error("Error al descargar el archivo:", error);
+      toast.update(toastId, {
+        render: "Error",
+        autoClose: 5000,
+      });
     }
   };
 
@@ -114,6 +148,15 @@ function Dashboard() {
         >
           Logout
         </button>
+        <div className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center">
+          <button
+            type="button"
+            onClick={printerAll}
+            className="text-white-800 hover:text-white-900 flex items-center"
+          >
+            <FaPrint className="mr-1" /> PRINT All
+          </button>
+        </div>
       </div>
       <div className="w-full max-w-6xl bg-white shadow-md rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
