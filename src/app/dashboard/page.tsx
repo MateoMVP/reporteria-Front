@@ -9,83 +9,84 @@ interface dataDashboard {
   nota: string;
   name_tecnico: string;
   store_Id: number;
+  _id:string;
 }
 
-const data_chat: dataDashboard[] = [
-  {
-    KioskId: 923,
-    fecha: "2020-04-28",
-    nota: "Respond claim entire.",
-    name_tecnico: "Danielle Vasquez",
-    store_Id: 235,
-  },
-  {
-    KioskId: 535,
-    fecha: "2023-01-01",
-    nota: "Fast carry fine spend.",
-    name_tecnico: "Christina Valdez",
-    store_Id: 671,
-  },
-  {
-    KioskId: 838,
-    fecha: "2020-11-23",
-    nota: "Improve somebody body movie smile certain.",
-    name_tecnico: "Lauren Day",
-    store_Id: 902,
-  },
-  {
-    KioskId: 921,
-    fecha: "2022-01-12",
-    nota: "Capital film space.",
-    name_tecnico: "Tina Rodriguez MD",
-    store_Id: 297,
-  },
-  {
-    KioskId: 110,
-    fecha: "2022-07-29",
-    nota: "Radio world total receive.",
-    name_tecnico: "Elizabeth Schmidt",
-    store_Id: 561,
-  },
-  {
-    KioskId: 175,
-    fecha: "2023-03-07",
-    nota: "Someone reality guess however entire.",
-    name_tecnico: "Steven Harris",
-    store_Id: 435,
-  },
-  {
-    KioskId: 285,
-    fecha: "2021-10-15",
-    nota: "Mission nature song third top current.",
-    name_tecnico: "Christina Williams",
-    store_Id: 789,
-  },
-  {
-    KioskId: 951,
-    fecha: "2023-06-18",
-    nota: "Color several design across statement include.",
-    name_tecnico: "Patrick Griffin",
-    store_Id: 123,
-  },
-  {
-    KioskId: 201,
-    fecha: "2022-08-22",
-    nota: "Mission fill visit report beyond event.",
-    name_tecnico: "Michael Miller",
-    store_Id: 670,
-  },
-  {
-    KioskId: 770,
-    fecha: "2023-02-24",
-    nota: "Off concern modern leader out player.",
-    name_tecnico: "Susan Green",
-    store_Id: 453,
-  },
-];
+// const data_chat: dataDashboard[] = [
+//   {
+//     KioskId: 923,
+//     fecha: "2020-04-28",
+//     nota: "Respond claim entire.",
+//     name_tecnico: "Danielle Vasquez",
+//     store_Id: 235,
+//   },
+//   {
+//     KioskId: 535,
+//     fecha: "2023-01-01",
+//     nota: "Fast carry fine spend.",
+//     name_tecnico: "Christina Valdez",
+//     store_Id: 671,
+//   },
+//   {
+//     KioskId: 838,
+//     fecha: "2020-11-23",
+//     nota: "Improve somebody body movie smile certain.",
+//     name_tecnico: "Lauren Day",
+//     store_Id: 902,
+//   },
+//   {
+//     KioskId: 921,
+//     fecha: "2022-01-12",
+//     nota: "Capital film space.",
+//     name_tecnico: "Tina Rodriguez MD",
+//     store_Id: 297,
+//   },
+//   {
+//     KioskId: 110,
+//     fecha: "2022-07-29",
+//     nota: "Radio world total receive.",
+//     name_tecnico: "Elizabeth Schmidt",
+//     store_Id: 561,
+//   },
+//   {
+//     KioskId: 175,
+//     fecha: "2023-03-07",
+//     nota: "Someone reality guess however entire.",
+//     name_tecnico: "Steven Harris",
+//     store_Id: 435,
+//   },
+//   {
+//     KioskId: 285,
+//     fecha: "2021-10-15",
+//     nota: "Mission nature song third top current.",
+//     name_tecnico: "Christina Williams",
+//     store_Id: 789,
+//   },
+//   {
+//     KioskId: 951,
+//     fecha: "2023-06-18",
+//     nota: "Color several design across statement include.",
+//     name_tecnico: "Patrick Griffin",
+//     store_Id: 123,
+//   },
+//   {
+//     KioskId: 201,
+//     fecha: "2022-08-22",
+//     nota: "Mission fill visit report beyond event.",
+//     name_tecnico: "Michael Miller",
+//     store_Id: 670,
+//   },
+//   {
+//     KioskId: 770,
+//     fecha: "2023-02-24",
+//     nota: "Off concern modern leader out player.",
+//     name_tecnico: "Susan Green",
+//     store_Id: 453,
+//   },
+// ];
 
 function Dashboard() {
-  const [data, setData] = useState<dataDashboard[]>(data_chat); // Usamos la interfaz ReporteTrabajo para tipar los datos
+  const [data, setData] = useState<dataDashboard[]>([]); // Usamos la interfaz ReporteTrabajo para tipar los datos
   const [currentPage, setCurrentPage] = useState(1); // Página actual
   const [rowsPerPage] = useState(5); // Filas por página
   const [loading, setLoading] = useState(false);
