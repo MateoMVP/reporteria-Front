@@ -8,13 +8,13 @@ interface request {
   KioskId: string;
   nota: string;
   name_tecnico: string;
-  PictBOX?: File | string;
-  PictBef?: File | string;
-  PictDef?: File | string;
-  PictAft?: File | string;
+  PictBOX?: File | string | null;
+  PictBef?: File | string | null;
+  PictDef?: File | string | null;
+  PictAft?: File | string | null;
 }
 
-export default function useModifyReport(id: string) {
+export default function useModifyReport(id: string, name?: string) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -24,7 +24,7 @@ export default function useModifyReport(id: string) {
       initialValues: {
         KioskId: "",
         nota: "",
-        name_tecnico: "",
+        name_tecnico: name || "",
         PictBOX: undefined,
         PictBef: undefined,
         PictDef: undefined,
@@ -52,7 +52,7 @@ export default function useModifyReport(id: string) {
           await AXIOS.patch("/actualizar_reporte/" + id, formData);
           setSuccess(true);
           toast.success("Report created successfully");
-        //   router.push("/dashboard");
+          //   router.push("/dashboard");
         } catch (error) {
           console.error("Error creating report", error);
           toast.error("Error creating report");
