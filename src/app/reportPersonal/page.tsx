@@ -18,8 +18,62 @@ interface reportesPerTecnico{
     [name_tecnico: string]: InfoReporte[];
 }
 
+const data_chat: InfoReporte[] = [
+    {
+        _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+        KioskId: 74473,
+        fecha: "2022-05-19",
+        address: "67807 Pamela Forest",
+        city: "Millston",
+        state: "CT",
+        zipCode: "85283",
+        name_tecnico: "Erica Rodriguez",
+    },
+    {
+        _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+        KioskId: 74473,
+        fecha: "2022-05-19",
+        address: "67807 Pamela Forest",
+        city: "Millston",
+        state: "CT",
+        zipCode: "85283",
+        name_tecnico: "Mateo Velasquez",
+      },
+      {
+        _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+        KioskId: 74473,
+        fecha: "2022-05-19",
+        address: "67807 Pamela Forest",
+        city: "Millston",
+        state: "CT",
+        zipCode: "85283",
+        name_tecnico: "Mateo Velasquez",
+      },
+      {
+        _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+        KioskId: 74473,
+        fecha: "2022-05-19",
+        address: "67807 Pamela Forest",
+        city: "Millston",
+        state: "CT",
+        zipCode: "85283",
+        name_tecnico: "Johan Gonzales",
+      },
+      {
+        _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+        KioskId: 74473,
+        fecha: "2022-05-19",
+        address: "67807 Pamela Forest",
+        city: "Millston",
+        state: "CT",
+        zipCode: "85283",
+        name_tecnico: "Erica Rodriguez",
+      },
+]
+
+
 function ReportesTecnico() {
-  const [reportes, setReportes] = useState<InfoReporte[]>([]); // Datos de los reportes
+  const [reportes, setReportes] = useState<InfoReporte[]>(data_chat); // Datos de los reportes
   const [loading, setLoading] = useState(false);
   const router = useRouter(); // Para redirigir
 
@@ -28,7 +82,7 @@ function ReportesTecnico() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await AXIOS.get("/personal/:id"); // Endpoint para obtener reportes por técnico
+        const response = await AXIOS.get("/personal"); // Endpoint para obtener reportes por técnico
         setReportes(response.data);
         setLoading(false);
       } catch (error) {
