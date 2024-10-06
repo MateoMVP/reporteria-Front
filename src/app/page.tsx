@@ -4,6 +4,7 @@ import AXIOS from "./config/axios";
 import Cookies from "js-cookie";
 import type { UserInterface } from "./interfaces/User";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 function Login() {
   const [username, setUsername] = useState<UserInterface["username"]>("");
@@ -16,7 +17,7 @@ function Login() {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.currentTarget.value);
   };
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -36,6 +37,7 @@ function Login() {
         const { token } = response.data;
         console.log("Se recibió el token", token);
         Cookies.set("authToken", token);
+        router.push("/dashboard");
       } else {
         console.error("Error de autenticación");
         toast.error("Login error", {

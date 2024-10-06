@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import AXIOS from "../config/axios"; // Axios config
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-
+import Cookies from "js-cookie";
 interface dataDashboard {
   KioskId: number;
   fecha: string;
@@ -49,12 +49,32 @@ function Dashboard() {
   const openReport = (url: string) => {
     router.push("/reporte/" + url);
   };
+  const logout = () => {
+    Cookies.remove("authToken");
+    router.push("/");
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 pr-6 pl-4 px-4 sm:px-6 sm:pl-6 lg:px-8">
       <ToastContainer />
       <h1 className="text-3xl font-bold mb-4 text-center text-[#1E3A8A]">
         Dashboard
       </h1>
+      <div>
+        <button
+          onClick={() => router.push("/create_report")}
+          className="bg-[#1E3A8A] text-white px-4 py-2 rounded-md"
+        >
+          New Report
+        </button>
+      </div>{" "}
+      <div>
+        <button
+          onClick={logout}
+          className="bg-[#ad1111] text-white px-4 py-2 rounded-md"
+        >
+          Logout
+        </button>
+      </div>
       <div className="w-full max-w-4xl flex items-center flex-col justify-center p-2">
         <table className="min-w-full bg-white border-collapse border border-gray-400">
           <thead>
