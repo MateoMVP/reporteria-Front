@@ -11,7 +11,6 @@ export default function InfoLine({
   ParentName,
   store_id,
   tecnico,
-  tienda,
 }: Props) {
   return (
     <div className="bg-blue-100 border text-[14px] border-black  p-2 w-full flex justify-between mt-2 ">

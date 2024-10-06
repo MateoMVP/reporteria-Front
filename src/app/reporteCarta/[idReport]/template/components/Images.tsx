@@ -1,5 +1,4 @@
 import customImageLoader from "@/app/controllers/imageLoader";
-import { ReporteTrabajo } from "@/app/interfaces/Reporte_trabajo";
 
 type Props = {
   PictBOX?: string;

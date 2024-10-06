@@ -21,7 +21,8 @@
       "@/*": ["./src/*"],
       "@interfaces/*": ["./src/app/interfaces/*"],
       "@public/*": ["./public/*"]
-    }
+    },
+    "noImplicitAny": false
   },
   "include": [
     "next-env.d.ts",

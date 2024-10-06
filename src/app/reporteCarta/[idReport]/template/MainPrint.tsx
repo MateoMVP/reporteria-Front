@@ -1,4 +1,3 @@
-import { ReporteTrabajo } from "@interfaces/Reporte_trabajo";
 import Header from "./components/Header";
 import InfoReport from "./components/InfoReport";
 import InfoLine from "./components/InfoLine";
@@ -63,6 +62,7 @@ export default async function MainPrint({ reporteId }: { reporteId: string }) {
     }
     return <div className="text-red-500">{data.error}</div>;
   } catch (e) {
+    console.error(e);
     return <div className="text-red-500">Error</div>;
   }
 }

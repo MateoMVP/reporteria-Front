@@ -19,73 +19,8 @@ interface reportesPerTecnico {
   [name_tecnico: string]: InfoReporte[];
 }
 
-const datosPrueba: InfoReporte[] = [
-  {
-    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    KioskId: 74473,
-    fecha: "2022-05-19",
-    address: "67807 Pamela Forest",
-    city: "Millston",
-    state: "CT",
-    zipCode: "85283",
-    name_tecnico: "Johan S",
-  },
-  {
-    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    KioskId: 74473,
-    fecha: "2022-05-19",
-    address: "67807 Pamela Forest",
-    city: "Millston",
-    state: "CT",
-    zipCode: "85283",
-    name_tecnico: "Erica Rodriguez",
-  },
-  {
-    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    KioskId: 74473,
-    fecha: "2022-05-19",
-    address: "67807 Pamela Forest",
-    city: "Millston",
-    state: "CT",
-    zipCode: "85283",
-    name_tecnico: "Mateo V",
-  },
-  {
-    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    KioskId: 74473,
-    fecha: "2022-05-19",
-    address: "67807 Pamela Forest",
-    city: "Millston",
-    state: "CT",
-    zipCode: "85283",
-    name_tecnico: "Erica Rodriguez",
-  },
-  {
-    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    KioskId: 74473,
-    fecha: "2022-05-19",
-    address: "67807 Pamela Forest",
-    city: "Millston",
-    state: "CT",
-    zipCode: "85283",
-    name_tecnico: "Johan S",
-  },
-  {
-    _id: "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    KioskId: 74473,
-    fecha: "2022-05-19",
-    address: "67807 Pamela Forest",
-    city: "Millston",
-    state: "CT",
-    zipCode: "85283",
-    name_tecnico: "Mateo v",
-  },
-  // Puedes agregar más objetos si lo deseas
-];
-
-
 function ReportesTecnico() {
-  const [reportes, setReportes] = useState<InfoReporte[]>(datosPrueba); // Datos de los reportes
+  const [reportes, setReportes] = useState<InfoReporte[]>(); // Datos de los reportes
   const [loading, setLoading] = useState(false);
   const router = useRouter(); // Para redirigir
 
@@ -109,17 +44,20 @@ function ReportesTecnico() {
     };
     fetchData();
   }, []);
-
-  // Agrupar reportes por técnico
-  const reportesPorTecnico = reportes.reduce(
-    (acc: reportesPerTecnico, reporte) => {
-      acc[reporte.name_tecnico] = acc[reporte.name_tecnico] || [];
-      acc[reporte.name_tecnico].push(reporte);
-      return acc;
-    },
-    {} as reportesPerTecnico
-  );
-
+  const [reportesPorTecnico, setReportesPorTecnico] =
+    useState<reportesPerTecnico>({});
+  useEffect(() => {
+    if (reportes) {
+      const reportesPorTecnico: reportesPerTecnico = {};
+      reportes.forEach((reporte) => {
+        if (!reportesPorTecnico[reporte.name_tecnico]) {
+          reportesPorTecnico[reporte.name_tecnico] = [];
+        }
+        reportesPorTecnico[reporte.name_tecnico].push(reporte);
+      });
+      setReportesPorTecnico(reportesPorTecnico);
+    }
+  }, [reportes]);
   // Función para manejar el clic en cada fila
   const handleRowClick = (_id: string) => {
     router.push(`/reporte/${_id}`); // Redirigir a la vista de reporte específico
@@ -132,7 +70,7 @@ function ReportesTecnico() {
         Reportes por Técnico
       </h1>
       <div className="w-full max-w-6xl overflow-x-auto">
-        <Button ruta="/dashboard"/>
+        <Button ruta="/dashboard" />
         {loading ? (
           <div className="text-center">Cargando datos...</div>
         ) : (

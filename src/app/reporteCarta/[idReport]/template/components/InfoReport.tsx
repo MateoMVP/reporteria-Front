@@ -1,4 +1,3 @@
-import { type ReporteTrabajo } from "@/app/interfaces/Reporte_trabajo";
 
 interface Props {
   address: string;
