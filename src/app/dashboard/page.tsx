@@ -47,7 +47,7 @@ function Dashboard() {
 
   const router = useRouter();
   const openReport = (url: string) => {
-    router.push("/reporteCarta/" + url);
+    router.push("/reporte/" + url);
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 pr-6 pl-4 px-4 sm:px-6 sm:pl-6 lg:px-8">
