@@ -50,7 +50,7 @@ export default async function MainPrint({ reporteId }: { reporteId: string }) {
     if ("reporte" in data) {
       const reporte = data.reporte;
       return (
-        <div className="grid w-full place-items-center bg-gray-500">
+        <div className="grid w-full place-items-center">
           <div className="p-2 bg-white w-[816px] md:px-5 m-4">
             <div>
               <Header />

@@ -14,8 +14,8 @@ interface InfoReporte {
   zipCode: string;
   name_tecnico: string;
 }
-interface reportesPerTecnico{
-    [name_tecnico: string]: InfoReporte[];
+interface reportesPerTecnico {
+  [name_tecnico: string]: InfoReporte[];
 }
 
 // const data_chat: InfoReporte[] = [
@@ -71,7 +71,6 @@ interface reportesPerTecnico{
 //       },
 // ]
 
-
 function ReportesTecnico() {
   const [reportes, setReportes] = useState<InfoReporte[]>([]); // Datos de los reportes
   const [loading, setLoading] = useState(false);
@@ -99,11 +98,14 @@ function ReportesTecnico() {
   }, []);
 
   // Agrupar reportes por técnico
-  const reportesPorTecnico = reportes.reduce((acc: reportesPerTecnico, reporte) => {
-    acc[reporte.name_tecnico] = acc[reporte.name_tecnico] || [];
-    acc[reporte.name_tecnico].push(reporte);
-    return acc;
-  }, {} as reportesPerTecnico);
+  const reportesPorTecnico = reportes.reduce(
+    (acc: reportesPerTecnico, reporte) => {
+      acc[reporte.name_tecnico] = acc[reporte.name_tecnico] || [];
+      acc[reporte.name_tecnico].push(reporte);
+      return acc;
+    },
+    {} as reportesPerTecnico
+  );
 
   // Función para manejar el clic en cada fila
   const handleRowClick = (_id: string) => {
@@ -116,7 +118,7 @@ function ReportesTecnico() {
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">
         Reportes por Técnico
       </h1>
-      <div className="w-full max-w-6xl overflow-x-auto"> 
+      <div className="w-full max-w-6xl overflow-x-auto">
         {loading ? (
           <div className="text-center">Cargando datos...</div>
         ) : (
@@ -135,16 +137,10 @@ function ReportesTecnico() {
                       Kiosk ID
                     </th>
                     <th className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center text-sm sm:text-base font-medium text-gray-700">
-                      Dirección
-                    </th>
+                      Address
+                    </th>{" "}
                     <th className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center text-sm sm:text-base font-medium text-gray-700">
-                      Ciudad
-                    </th>
-                    <th className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center text-sm sm:text-base font-medium text-gray-700">
-                      Estado
-                    </th>
-                    <th className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center text-sm sm:text-base font-medium text-gray-700">
-                      Código Postal
+                      Name
                     </th>
                   </tr>
                 </thead>
@@ -165,13 +161,7 @@ function ReportesTecnico() {
                         {reporte.address}
                       </td>
                       <td className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center">
-                        {reporte.city}
-                      </td>
-                      <td className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center">
-                        {reporte.state}
-                      </td>
-                      <td className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center">
-                        {reporte.zipCode}
+                        {reporte.name_tecnico}
                       </td>
                     </tr>
                   ))}
