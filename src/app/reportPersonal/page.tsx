@@ -62,7 +62,7 @@ function ReportesTecnico() {
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">
         Reportes por Técnico
       </h1>
-      <div className="w-full max-w-6xl overflow-x-auto"> {/* Agregamos overflow-x-auto */}
+      <div className="w-full max-w-6xl overflow-x-auto"> 
         {loading ? (
           <div className="text-center">Cargando datos...</div>
         ) : (
