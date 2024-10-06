@@ -58,6 +58,14 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
           setFieldValue("KioskId", data.reporte.KioskId);
           setFieldValue("nota", data.reporte.nota);
           setFieldValue("name_tecnico", data.reporte.name_tecnico);
+          if (data.reporte.PictBOX)
+            setFieldValue("PictBOX", data.reporte.PictBOX);
+          if (data.reporte.PictBef)
+            setFieldValue("PictBef", data.reporte.PictBef);
+          if (data.reporte.PictDef)
+            setFieldValue("PictDef", data.reporte.PictDef);
+          if (data.reporte.PictAft)
+            setFieldValue("PictAft", data.reporte.PictAft);
 
           setReporte(data.reporte);
         } else if (data.error) {
@@ -107,7 +115,14 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
               onEdit={onEdit}
             />
             <Note note={reporte.nota} />
-            <ImagesReport {...reporte} />
+            <ImagesReport
+              onEdit={onEdit}
+              PictAft={values.PictAft}
+              PictBOX={values.PictBOX}
+              PictBef={values.PictBef}
+              PictDef={values.PictDef}
+              setFieldValue={setFieldValue}
+            />
             <div className="w-full bg-black h-[1px]" />
             <div className="p-2 font-bold text-red-500">RED BOX</div>
             <div className="flex gap-3">
