@@ -55,6 +55,14 @@ function Dashboard() {
       <h1 className="text-3xl font-bold mb-4 text-center text-[#1E3A8A]">
         Dashboard
       </h1>
+      <div>
+        <button
+          onClick={() => router.push("/create_report")}
+          className="bg-[#1E3A8A] text-white px-4 py-2 rounded-md"
+        >
+          Crear reporte
+        </button>
+      </div>
       <div className="w-full max-w-4xl flex items-center flex-col justify-center p-2">
         <table className="min-w-full bg-white border-collapse border border-gray-400">
           <thead>
