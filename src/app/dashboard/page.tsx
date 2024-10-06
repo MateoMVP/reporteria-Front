@@ -4,7 +4,9 @@ import AXIOS from "../config/axios"; // Axios config
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-interface dataDashboard {
+import { FaEye, FaPrint } from "react-icons/fa";
+
+interface DataDashboard {
   KioskId: number;
   fecha: string;
   nota: string;
@@ -14,29 +16,28 @@ interface dataDashboard {
 }
 
 function Dashboard() {
-  const [data, setData] = useState<dataDashboard[]>([]); // Usamos la interfaz ReporteTrabajo para tipar los datos
-  const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const [rowsPerPage] = useState(5); // Filas por página
+  const [data, setData] = useState<DataDashboard[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(5);
   const [loading, setLoading] = useState(false);
 
-  // Llamada al backend para obtener datos
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const response = await AXIOS.get(`/reportes`);
         console.log("response", response.data);
-        setData(response.data); // Llenamos la tabla con los datos
+        setData(response.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
+        toast.error("Error al cargar los datos.");
       }
     };
 
     fetchData();
   }, [currentPage]);
 
-  // Manejar cambio de página
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
@@ -53,100 +54,190 @@ function Dashboard() {
     Cookies.remove("authToken");
     router.push("/");
   };
+  const [isLoading, setIsLoading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
+  const [toastRef, setToastRef] = useState<null | number | string>(null);
+
+  const printer = async (id: string, kiosk: string) => {
+    const toastId = toast.info("Generando reporte...", { autoClose: false });
+
+    try {
+      // Asegúrate de que la URL esté apuntando al servidor backend (3005)
+      const baseUrl = AXIOS.defaults.baseURL;
+      const fileURL = `${baseUrl}/reportes/pdf/${id}`;
+
+      // Crear un enlace temporal para forzar la descarga
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.setAttribute("download", `report_${kiosk}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast.update(toastId, {
+        render: "Reporte generado exitosamente.",
+        autoClose: 3000,
+      });
+    } catch (error: any) {
+      console.error("Error al generar el reporte:", error);
+      toast.update(toastId, {
+        render: "Error al generar el reporte.",
+        autoClose: 5000,
+      });
+    } finally {
+      setDownloadProgress(null);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-12 pr-6 pl-4 px-4 sm:px-6 sm:pl-6 lg:px-8">
+    <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <ToastContainer />
-      <h1 className="text-3xl font-bold mb-4 text-center text-[#1E3A8A]">
+      <h1 className="text-4xl font-extrabold mb-6 text-center text-indigo-800">
         Dashboard
       </h1>
-      <div>
+      <div className="flex flex-col sm:flex-row sm:space-x-4 mb-6">
         <button
           onClick={() => router.push("/create_report")}
-          className="bg-[#1E3A8A] text-white px-4 py-2 rounded-md"
+          className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
         >
           New Report
         </button>
-      </div>{" "}
-      <div>
+        <button
+          onClick={() => router.push("/reportPersonal")}
+          className="mb-2 sm:mb-0 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
+        >
+          Personal
+        </button>
         <button
           onClick={logout}
-          className="bg-[#ad1111] text-white px-4 py-2 rounded-md"
+          className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
         >
           Logout
         </button>
       </div>
-      <div className="w-full max-w-4xl flex items-center flex-col justify-center p-2">
-        <table className="min-w-full bg-white border-collapse border border-gray-400">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border border-gray-400 text-center text-sm font-medium text-[#1E3A8A]">
-                KioskID
-              </th>
-              <th className="px-4 py-2 border border-gray-400 text-center text-sm font-medium text-[#1E3A8A]">
-                Date
-              </th>
-              <th className="px-4 py-2 border border-gray-400 text-center text-sm font-medium text-[#1E3A8A]">
-                Technician
-              </th>
-              <th className="px-4 py-2 border border-gray-400 text-center text-sm font-medium text-[#1E3A8A]">
-                Note
-              </th>
-              <th className="px-4 py-2 border border-gray-400 text-center text-sm font-medium text-[#1E3A8A]">
-                Store ID
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading && !data ? (
+      <div className="w-full max-w-6xl bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-indigo-50">
               <tr>
-                <td colSpan={5} className="text-center py-4">
-                  Cargando datos...
-                </td>
+                <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
+                  Kiosk ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
+                  Worker
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
+                  Note
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
+                  Store ID
+                </th>
+                <th className="px-6 py-3 text-center text-xs font-medium text-indigo-600 uppercase tracking-wider">
+                  Action
+                </th>
               </tr>
-            ) : (
-              (console.log(data),
-              data.map((row) => (
-                <tr
-                  className="hover:bg-gray-200  cursor-pointer"
-                  onClick={() => openReport(row._id)}
-                  key={row.KioskId}
-                >
-                  <td className="px-4 py-2 border border-gray-400 text-center">
-                    {row.KioskId}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-400 text-center">
-                    {new Date(row.fecha).toLocaleDateString()}{" "}
-                    {/* Formateamos la fecha */}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-400 text-center">
-                    {row.name_tecnico}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-400 text-center">
-                    {row.nota}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-400 text-center">
-                    {row.store_id}
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {loading ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-8 text-gray-500">
+                    <svg
+                      className="animate-spin h-8 w-8 text-indigo-600 mx-auto"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      ></path>
+                    </svg>
+                    <span className="mt-2 block">Cargando datos...</span>
                   </td>
                 </tr>
-              )))
-            )}
-          </tbody>
-        </table>
-        <div className="flex justify-between mt-4">
+              ) : data.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-8 text-gray-500">
+                    NO DATA
+                  </td>
+                </tr>
+              ) : (
+                data.map((row, index) => (
+                  <tr
+                    key={row.KioskId}
+                    className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {row.KioskId}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {new Date(row.fecha).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {row.name_tecnico}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {row.nota}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {row.store_id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                      <button
+                        onClick={() => openReport(row._id)}
+                        className="text-indigo-600 hover:text-indigo-900 mr-2 flex items-center"
+                      >
+                        <FaEye className="mr-1" /> OPEN
+                      </button>
+                      <button
+                        onClick={() => printer(row._id, row.KioskId.toString())}
+                        className="text-yellow-600 hover:text-yellow-900 flex items-center"
+                      >
+                        <FaPrint className="mr-1" /> PRINT
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        {/* Paginación */}
+        {/* Descomentar si deseas usar la paginación */}
+        {/* 
+        <div className="flex justify-between items-center p-4 bg-gray-100">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className="bg-[#1E3A8A] text-white px-4 py-2 rounded-md disabled:opacity-50"
+            className={`px-4 py-2 rounded-md ${
+              currentPage === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700 text-white"
+            } transition duration-200`}
           >
             Anterior
           </button>
+          <span className="text-gray-700">Página {currentPage}</span>
           <button
             onClick={handleNextPage}
-            className="bg-[#1E3A8A] text-white px-4 py-2 rounded-md"
+            className="px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white transition duration-200"
           >
             Siguiente
           </button>
         </div>
+        */}
       </div>
     </div>
   );
