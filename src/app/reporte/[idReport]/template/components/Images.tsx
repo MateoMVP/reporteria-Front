@@ -31,7 +31,7 @@ export default function ImagesReport({
         />
         {PictAft && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[300px] h-[300px] object-center"
             src={
               typeof PictAft === "string"
                 ? customImageLoader({ src: PictAft })
@@ -52,7 +52,7 @@ export default function ImagesReport({
         />
         {PictBOX && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[300px] h-[300px] object-center"
             src={
               typeof PictBOX === "string"
                 ? customImageLoader({ src: PictBOX })
@@ -73,7 +73,7 @@ export default function ImagesReport({
         />
         {PictBef && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[300px] h-[300px] object-center"
             src={
               typeof PictBef === "string"
                 ? customImageLoader({ src: PictBef })
@@ -94,7 +94,7 @@ export default function ImagesReport({
         />
         {PictDef && (
           <img
-            className="w-[300px] h-[300px]"
+            className="w-[300px] h-[300px] object-center"
             src={
               typeof PictDef === "string"
                 ? customImageLoader({ src: PictDef })
