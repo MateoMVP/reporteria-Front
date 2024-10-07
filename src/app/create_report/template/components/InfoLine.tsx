@@ -4,6 +4,7 @@ import { ChangeEvent } from "react";
 interface Props {
   site: Sitios | null;
   values: {
+    field: string;
     KioskId: string;
     nota: string;
     name_tecnico: string;
@@ -59,7 +60,7 @@ export default function InfoLine({
         </div>
       </div>
       <div className="flex gap-2 flex-col">
-        <div className="bg-white rounded p-1">{"Wal-Mart Stores Inc"}</div>
+        <div className="bg-white rounded p-1">{site?.ParentName}</div>
         {/* <div className="bg-white rounded p-1">{tienda}</div> */}
         <div className="flex gap-2 flex-row items-center">
           <span className="text-gray-500">Tech: </span>
@@ -78,6 +79,17 @@ export default function InfoLine({
             ))}
           </select>
         </div>
+        <select
+          name="field"
+          value={values.field}
+          onChange={handleChange}
+          className="bg-white rounded p-1"
+          required
+        >
+          <option value="">Select Field</option>
+          <option value="Already Removed">Already Removed</option>
+          <option value="Done">Done</option>
+        </select>
       </div>
     </div>
   );

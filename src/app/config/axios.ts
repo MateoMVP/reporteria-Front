@@ -2,7 +2,7 @@ import axios from "axios";
 
 const AXIOS = axios.create(
     {
-        baseURL: "http://localhost:3005/api"
+        baseURL: "https://6f3906702b06.sn.mynetname.net/redbox/api"
     }
 )
 

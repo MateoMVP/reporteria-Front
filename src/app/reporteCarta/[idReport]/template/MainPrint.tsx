@@ -21,13 +21,16 @@ interface Props {
     zip: string;
     code: number;
     store_id: string;
+    ParentName: string;
   };
 }
 
 export default async function MainPrint({ reporteId }: { reporteId: string }) {
   try {
     const data = (
-      await AXIOS.get<Props | { error: string }>("/reporte/" + reporteId)
+      await AXIOS.get<Props | { error: string }>("/reporte/" + reporteId, {
+        baseURL: "http://localhost:3005/redbox/api",
+      })
     ).data;
     if ("reporte" in data) {
       const reporte = data.reporte;
@@ -46,7 +49,7 @@ export default async function MainPrint({ reporteId }: { reporteId: string }) {
               />
               <InfoLine
                 KioskId={reporte.KioskId}
-                ParentName="Wal-Mart Stores Inc"
+                ParentName={reporte.ParentName}
                 tienda="Walmart Neighborhood Market"
                 store_id={reporte.store_id}
                 tecnico={reporte.name_tecnico}

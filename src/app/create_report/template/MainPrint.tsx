@@ -29,6 +29,7 @@ interface Props {
     zip: string;
     code: number;
     store_id: string;
+    ParentName: string;
   };
 }
 

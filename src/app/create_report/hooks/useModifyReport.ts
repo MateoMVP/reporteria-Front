@@ -12,6 +12,7 @@ interface request {
   PictBef?: File | string | null;
   PictDef?: File | string | null;
   PictAft?: File | string | null;
+  field: string;
 }
 
 export default function useModifyReport(id: string, name?: string) {
@@ -23,6 +24,7 @@ export default function useModifyReport(id: string, name?: string) {
     useFormik<request>({
       initialValues: {
         KioskId: "",
+        field: "",
         nota: "",
         name_tecnico: name || "",
         PictBOX: undefined,
@@ -47,6 +49,9 @@ export default function useModifyReport(id: string, name?: string) {
         }
         if (values.PictAft) {
           formData.append("PictAft", values.PictAft);
+        }
+        if (values.field) {
+          formData.append("field", values.field);
         }
         try {
           await AXIOS.patch("/actualizar_reporte/" + id, formData);
