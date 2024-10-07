@@ -21,14 +21,17 @@ export default function ImagesReport({
   return (
     <div className="grid grid-cols-2 w-full place-items-center gap-3 pb-4">
       <div className="w-[300px] h-[320px]">
-        <input
-          disabled={!onEdit}
-          type="file"
-          name="PictAft"
-          onChange={(e) => {
-            if (e.target.files) setFieldValue("PictAft", e.target.files[0]);
-          }}
-        />
+        <div>
+          <div className="font-bold">Front Store</div>
+          <input
+            disabled={!onEdit}
+            type="file"
+            name="PictAft"
+            onChange={(e) => {
+              if (e.target.files) setFieldValue("PictAft", e.target.files[0]);
+            }}
+          />
+        </div>
         {PictAft && (
           <img
             className="w-[300px] h-[300px] object-center"
@@ -42,14 +45,17 @@ export default function ImagesReport({
         )}
       </div>
       <div className="w-[300px] h-[320px]">
-        <input
-          disabled={!onEdit}
-          type="file"
-          name="PictBOX"
-          onChange={(e) => {
-            if (e.target.files) setFieldValue("PictBOX", e.target.files[0]);
-          }}
-        />
+        <div>
+          <div className="font-bold">Equipment</div>
+          <input
+            disabled={!onEdit}
+            type="file"
+            name="PictBOX"
+            onChange={(e) => {
+              if (e.target.files) setFieldValue("PictBOX", e.target.files[0]);
+            }}
+          />
+        </div>
         {PictBOX && (
           <img
             className="w-[300px] h-[300px] object-center"
@@ -63,14 +69,17 @@ export default function ImagesReport({
         )}
       </div>
       <div className="w-[300px] h-[320px]">
-        <input
-          disabled={!onEdit}
-          type="file"
-          name="PictBef"
-          onChange={(e) => {
-            if (e.target.files) setFieldValue("PictBef", e.target.files[0]);
-          }}
-        />
+        <div>
+          <div className="font-bold ">Connections</div>
+          <input
+            disabled={!onEdit}
+            type="file"
+            name="PictBef"
+            onChange={(e) => {
+              if (e.target.files) setFieldValue("PictBef", e.target.files[0]);
+            }}
+          />
+        </div>
         {PictBef && (
           <img
             className="w-[300px] h-[300px] object-center"
@@ -84,14 +93,17 @@ export default function ImagesReport({
         )}
       </div>
       <div className="w-[300px] h-[320px]">
-        <input
-          disabled={!onEdit}
-          type="file"
-          name="PictDef"
-          onChange={(e) => {
-            if (e.target.files) setFieldValue("PictDef", e.target.files[0]);
-          }}
-        />
+        <div>
+          <div className="font-bold">Disconnected</div>
+          <input
+            disabled={!onEdit}
+            type="file"
+            name="PictDef"
+            onChange={(e) => {
+              if (e.target.files) setFieldValue("PictDef", e.target.files[0]);
+            }}
+          />
+        </div>
         {PictDef && (
           <img
             className="w-[300px] h-[300px] object-center"
