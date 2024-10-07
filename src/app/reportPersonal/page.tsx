@@ -19,8 +19,71 @@ interface reportesPerTecnico {
   [name_tecnico: string]: InfoReporte[];
 }
 
+const data_prueba: InfoReporte[] =[
+  {
+    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    "KioskId": 74473,
+    "fecha": "2022-05-19",
+    "address": "67807 Pamela Forest",
+    "city": "Millston",
+    "state": "CT",
+    "zipCode": "85283",
+    "name_tecnico": "Mateo V"
+  },
+  {
+    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    "KioskId": 74473,
+    "fecha": "2022-05-19",
+    "address": "67807 Pamela Forest",
+    "city": "Millston",
+    "state": "CT",
+    "zipCode": "85283",
+    "name_tecnico": "Mateo V"
+  },
+  {
+    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    "KioskId": 74473,
+    "fecha": "2022-05-19",
+    "address": "67807 Pamela Forest",
+    "city": "Millston",
+    "state": "CT",
+    "zipCode": "85283",
+    "name_tecnico": "Erica Rodriguez"
+  },
+  {
+    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    "KioskId": 74473,
+    "fecha": "2022-05-19",
+    "address": "67807 Pamela Forest",
+    "city": "Millston",
+    "state": "CT",
+    "zipCode": "85283",
+    "name_tecnico": "Mateo V"
+  },
+  {
+    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    "KioskId": 74473,
+    "fecha": "2022-05-19",
+    "address": "67807 Pamela Forest",
+    "city": "Millston",
+    "state": "CT",
+    "zipCode": "85283",
+    "name_tecnico": "Mateo V"
+  },
+  {
+    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
+    "KioskId": 74473,
+    "fecha": "2022-05-19",
+    "address": "67807 Pamela Forest",
+    "city": "Millston",
+    "state": "CT",
+    "zipCode": "85283",
+    "name_tecnico": "Mateo V"
+  }
+]
+
 function ReportesTecnico() {
-  const [reportes, setReportes] = useState<InfoReporte[]>(); // Datos de los reportes
+  const [reportes, setReportes] = useState<InfoReporte[]>(data_prueba); // Datos de los reportes
   const [loading, setLoading] = useState(false);
   const router = useRouter(); // Para redirigir
 
@@ -67,17 +130,17 @@ function ReportesTecnico() {
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <ToastContainer />
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">
-        Reportes por Técnico
+        Reports by technician
       </h1>
       <div className="w-full max-w-6xl overflow-x-auto">
         <Button ruta="/dashboard" />
         {loading ? (
-          <div className="text-center">Cargando datos...</div>
+          <div className="text-center">Load data...</div>
         ) : (
           Object.keys(reportesPorTecnico).map((tecnico) => (
             <div key={tecnico} className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-                {tecnico}
+                {tecnico} ({reportesPorTecnico[tecnico].length})
               </h2>
               <table className="min-w-full bg-white border-collapse border border-gray-400">
                 <thead>

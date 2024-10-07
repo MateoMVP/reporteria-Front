@@ -170,7 +170,7 @@ function Dashboard() {
                   Date
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
-                  Worker
+                  Crew
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
                   Note
