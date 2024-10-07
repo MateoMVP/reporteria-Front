@@ -27,6 +27,7 @@ interface ReporteProps {
   code: number;
   store_id: string;
   ParentName: string;
+  field:string
 }
 
 interface ApiResponse {
@@ -67,6 +68,10 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
             setFieldValue("PictDef", data.reporte.PictDef);
           if (data.reporte.PictAft)
             setFieldValue("PictAft", data.reporte.PictAft);
+          if(data.reporte.field){
+            setFieldValue("field", data.reporte.field);
+
+          }
 
           setReporte(data.reporte);
         } else if (data.error) {
