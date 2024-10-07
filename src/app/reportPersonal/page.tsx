@@ -19,71 +19,8 @@ interface reportesPerTecnico {
   [name_tecnico: string]: InfoReporte[];
 }
 
-const data_prueba: InfoReporte[] =[
-  {
-    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    "KioskId": 74473,
-    "fecha": "2022-05-19",
-    "address": "67807 Pamela Forest",
-    "city": "Millston",
-    "state": "CT",
-    "zipCode": "85283",
-    "name_tecnico": "Mateo V"
-  },
-  {
-    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    "KioskId": 74473,
-    "fecha": "2022-05-19",
-    "address": "67807 Pamela Forest",
-    "city": "Millston",
-    "state": "CT",
-    "zipCode": "85283",
-    "name_tecnico": "Mateo V"
-  },
-  {
-    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    "KioskId": 74473,
-    "fecha": "2022-05-19",
-    "address": "67807 Pamela Forest",
-    "city": "Millston",
-    "state": "CT",
-    "zipCode": "85283",
-    "name_tecnico": "Erica Rodriguez"
-  },
-  {
-    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    "KioskId": 74473,
-    "fecha": "2022-05-19",
-    "address": "67807 Pamela Forest",
-    "city": "Millston",
-    "state": "CT",
-    "zipCode": "85283",
-    "name_tecnico": "Mateo V"
-  },
-  {
-    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    "KioskId": 74473,
-    "fecha": "2022-05-19",
-    "address": "67807 Pamela Forest",
-    "city": "Millston",
-    "state": "CT",
-    "zipCode": "85283",
-    "name_tecnico": "Mateo V"
-  },
-  {
-    "_id": "8e4ee6be-bd6b-4db0-93a5-0a35f594c09e",
-    "KioskId": 74473,
-    "fecha": "2022-05-19",
-    "address": "67807 Pamela Forest",
-    "city": "Millston",
-    "state": "CT",
-    "zipCode": "85283",
-    "name_tecnico": "Mateo V"
-  }
-]
-
 function ReportesTecnico() {
-  const [reportes, setReportes] = useState<InfoReporte[]>(data_prueba); // Datos de los reportes
+  const [reportes, setReportes] = useState<InfoReporte[]>(); // Datos de los reportes
   const [loading, setLoading] = useState(false);
   const router = useRouter(); // Para redirigir
 
