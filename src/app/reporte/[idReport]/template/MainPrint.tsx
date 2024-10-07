@@ -10,6 +10,8 @@ import ImagesReport from "./components/Images";
 import AXIOS from "@/app/config/axios";
 import useModifyReport from "@/app/create_report/hooks/useModifyReport";
 import useGettecnicos from "@/app/create_report/hooks/useGetTecnicos";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface ReporteProps {
   KioskId: string;
@@ -27,7 +29,7 @@ interface ReporteProps {
   code: number;
   store_id: string;
   ParentName: string;
-  field:string
+  field: string;
 }
 
 interface ApiResponse {
@@ -51,6 +53,25 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
     tecnico
   );
   const { tecnicos } = useGettecnicos();
+  const router = useRouter();
+  const deleteReport = async () => {
+    try {
+      if (!confirm("Do you want to delete this report?")) {
+        return;
+      }
+      const response = await AXIOS.delete<ApiResponse>(`/reporte/${reporteId}`);
+      const data = response.data;
+      if (data.error) {
+        setError(data.error);
+      } else {
+        router.push("/");
+      }
+    } catch (err) {
+      setError("Error al eliminar el reporte.");
+      toast.error("Error.");
+    }
+  };
+
   useEffect(() => {
     const fetchReporte = async () => {
       try {
@@ -68,9 +89,8 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
             setFieldValue("PictDef", data.reporte.PictDef);
           if (data.reporte.PictAft)
             setFieldValue("PictAft", data.reporte.PictAft);
-          if(data.reporte.field){
+          if (data.reporte.field) {
             setFieldValue("field", data.reporte.field);
-
           }
 
           setReporte(data.reporte);
@@ -148,6 +168,7 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
                 Edit
               </button>
               <button
+                onClick={deleteReport}
                 className="p-2 rounded disabled:bg-gray-500 bg-red-400 hover:bg-blue-600"
                 type="button"
               >
