@@ -12,13 +12,14 @@ export default function ImagesReport({
   PictBef,
   PictDef,
 }: Props) {
+
   return (
     <div className="grid grid-cols-2 w-full place-items-center gap-3 pb-4">
       <div className="w-[255px] h-[255px]">
         {PictAft && (
           <img
             className="w-[255px] h-[255px]"
-            src={customImageLoader({ src: PictAft })}
+            src={customImageLoader({ src: PictAft,local:true })}
             alt=""
           />
         )}
@@ -27,7 +28,7 @@ export default function ImagesReport({
         {PictBOX && (
           <img
             className="w-[255px] h-[255px]"
-            src={customImageLoader({ src: PictBOX })}
+            src={customImageLoader({ src: PictBOX ,local:true})}
             alt=""
           />
         )}
@@ -36,7 +37,7 @@ export default function ImagesReport({
         {PictBef && (
           <img
             className="w-[255px] h-[255px]"
-            src={customImageLoader({ src: PictBef })}
+            src={customImageLoader({ src: PictBef ,local:true})}
             alt=""
           />
         )}
@@ -45,7 +46,7 @@ export default function ImagesReport({
         {PictDef && (
           <img
             className="w-[255px] h-[255px]"
-            src={customImageLoader({ src: PictDef })}
+            src={customImageLoader({ src: PictDef,local:true })}
             alt=""
           />
         )}
