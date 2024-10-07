@@ -12,6 +12,7 @@ interface request {
   PictBef?: File;
   PictDef?: File;
   PictAft?: File;
+  field: string;
 }
 
 export default function useCreateReport() {
@@ -29,6 +30,7 @@ export default function useCreateReport() {
         PictBef: undefined,
         PictDef: undefined,
         PictAft: undefined,
+        field: "",
       },
       onSubmit: async (values) => {
         setLoading(true);
@@ -47,6 +49,9 @@ export default function useCreateReport() {
         }
         if (values.PictAft) {
           formData.append("PictAft", values.PictAft);
+        }
+        if (values.field) {
+          formData.append("field", values.field);
         }
         try {
           await AXIOS.post("/insertar_reportes", formData);

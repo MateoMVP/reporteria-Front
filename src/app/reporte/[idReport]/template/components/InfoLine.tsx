@@ -7,6 +7,7 @@ interface Props {
   values: {
     KioskId: string;
     nota: string;
+    field: string;
     name_tecnico: string;
     PictBOX?: File | string | null;
     PictBef?: File | string | null;
@@ -71,6 +72,17 @@ export default function InfoLine({
             </select>
           )}
         </div>
+        <select
+          name="field"
+          value={values.field}
+          onChange={handleChange}
+          className="bg-white rounded p-1"
+          required
+        >
+          <option value="">Select Field</option>
+          <option value="Already Removed">Already Removed</option>
+          <option value="Done">Done</option>
+        </select>
       </div>
     </div>
   );

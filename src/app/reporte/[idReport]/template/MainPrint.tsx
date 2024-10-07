@@ -26,6 +26,7 @@ interface ReporteProps {
   zip: string;
   code: number;
   store_id: string;
+  ParentName: string;
 }
 
 interface ApiResponse {
@@ -108,7 +109,7 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
             <InfoLine
               tecnicos={tecnicos}
               KioskId={reporte.KioskId}
-              ParentName="Wal-Mart Stores Inc"
+              ParentName={reporte.ParentName}
               store_id={reporte.store_id}
               handleChange={handleChange}
               values={values}
