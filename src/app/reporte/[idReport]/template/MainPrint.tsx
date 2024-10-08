@@ -127,6 +127,7 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
           <form onSubmit={() => handleSubmit()}>
             <Header />
             <InfoReport
+              onEdit={onEdit}
               handleChange={handleChange}
               zip={reporte.zip}
               state={reporte.state}
@@ -178,6 +179,13 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
                 type="button"
               >
                 Delete
+              </button>{" "}
+              <button
+                onClick={() => router.push("/")}
+                className="p-2 rounded disabled:bg-gray-500 bg-blue-400 hover:bg-blue-600"
+                type="button"
+              >
+                Home
               </button>
             </div>
           </form>

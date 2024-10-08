@@ -13,6 +13,7 @@ interface request {
   PictDef?: File;
   PictAft?: File;
   field: string;
+  fecha: string;
 }
 
 export default function useCreateReport() {
@@ -31,6 +32,7 @@ export default function useCreateReport() {
         PictDef: undefined,
         PictAft: undefined,
         field: "",
+        fecha: new Date().toISOString().split("T")[0],
       },
       onSubmit: async (values) => {
         setLoading(true);
@@ -52,6 +54,9 @@ export default function useCreateReport() {
         }
         if (values.field) {
           formData.append("field", values.field);
+        }
+        if (values.fecha) {
+          formData.append("fecha", values.fecha);
         }
         try {
           await AXIOS.post("/insertar_reportes", formData);

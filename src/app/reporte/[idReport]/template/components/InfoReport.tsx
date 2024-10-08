@@ -9,6 +9,7 @@ interface Props {
     fecha: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEdit: boolean;
 }
 
 export default function InfoReport({
@@ -20,6 +21,7 @@ export default function InfoReport({
   zip,
   handleChange,
   values,
+  onEdit,
 }: Props) {
   return (
     <div className="flex w-full justify-between pt-2">
@@ -34,7 +36,13 @@ export default function InfoReport({
       <div>
         <div>
           <span>Completation Date: </span>
-          <input type="date" name="fecha" value={values.fecha} onChange={handleChange} />
+          <input
+            disabled={!onEdit}
+            type="date"
+            name="fecha"
+            value={values.fecha}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <span>Code: </span> {" " + code}

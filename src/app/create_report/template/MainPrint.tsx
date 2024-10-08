@@ -45,7 +45,7 @@ export default function MainPrint({ reporteId }: { reporteId: string }) {
       <div className="p-2 bg-white w-[816px] md:px-5 m-4">
         <form onSubmit={handleSubmit}>
           <Header />
-          <InfoReport handleChange={handleChange} site={site} />
+          <InfoReport values={values} handleChange={handleChange} site={site} />
           <InfoLine
             tecnicos={tecnicos}
             kiosks={kioskIds}

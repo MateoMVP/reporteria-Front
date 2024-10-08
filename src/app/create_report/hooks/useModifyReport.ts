@@ -40,6 +40,7 @@ export default function useModifyReport(id: string, name?: string) {
         formData.append("KioskId", values.KioskId);
         formData.append("nota", values.nota);
         formData.append("name_tecnico", values.name_tecnico);
+        formData.append("fecha", values.fecha);
         if (values.PictBOX) {
           formData.append("PictBOX", values.PictBOX);
         }
@@ -54,6 +55,9 @@ export default function useModifyReport(id: string, name?: string) {
         }
         if (values.field) {
           formData.append("field", values.field);
+        }
+        if (values.fecha) {
+          formData.append("fecha", values.fecha);
         }
         try {
           await AXIOS.patch("/actualizar_reporte/" + id, formData);

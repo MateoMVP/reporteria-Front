@@ -5,6 +5,7 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { FaEye, FaPrint } from "react-icons/fa";
+import moment from "moment";
 
 interface DataDashboard {
   KioskId: number;
@@ -263,7 +264,7 @@ function Dashboard() {
                       {row.KioskId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {new Date(row.fecha).toLocaleDateString()}
+                      {row.fecha}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {row.name_tecnico}

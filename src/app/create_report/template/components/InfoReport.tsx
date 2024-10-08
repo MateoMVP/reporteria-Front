@@ -14,9 +14,12 @@ interface Props {
       ? void
       : (e: string | React.ChangeEvent<any>) => void;
   };
+  values: {
+    fecha: string;
+  };
 }
 
-export default function InfoReport({ site, handleChange }: Props) {
+export default function InfoReport({ site, handleChange, values }: Props) {
   return (
     <div className="flex w-full justify-between pt-2">
       <div className="flex flex-col">
@@ -30,7 +33,12 @@ export default function InfoReport({ site, handleChange }: Props) {
       <div>
         <div>
           <span>Completation Date: </span>
-          {moment().format("YYYY-MM-DD").toString()}
+          <input
+            type="date"
+            name="fecha"
+            value={values.fecha}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <span>Code: </span>{" "}
