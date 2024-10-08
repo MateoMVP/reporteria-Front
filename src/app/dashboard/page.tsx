@@ -24,6 +24,8 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
+  const [filteredData, setFilteredData] = useState<DataDashboard[]>([]);
+  const [filterDate, setFilterDate] = useState("");
 
   const currentUsername = Cookies.get("username");
 
@@ -34,6 +36,7 @@ function Dashboard() {
         const response = await AXIOS.get(`/reportes`);
         console.log("response", response.data);
         setData(response.data);
+        setFilteredData(response.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -43,6 +46,14 @@ function Dashboard() {
 
     fetchData();
   }, [currentPage]);
+
+  useEffect(() => {
+    const filtered = data.filter((item) => {
+      const itemDate = new Date(item.fecha).toISOString().split("T")[0];
+      return filterDate ? itemDate === filterDate : true; // Filtrar por fecha si hay una fecha seleccionada
+    });
+    setFilteredData(filtered); // Actualizamos los datos filtrados
+  }, [filterDate, data]); // Ejecutar el filtro cada vez que cambie la fecha o los datos
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -110,7 +121,7 @@ function Dashboard() {
       const response = await AXIOS.get(
         `/reportes/pdf?minDate=${minDate}&maxDate=${maxDate}`,
         {
-          responseType: "blob" 
+          responseType: "blob",
         }
       );
       // Crear una URL para el blob recibido
@@ -168,33 +179,45 @@ function Dashboard() {
         >
           Personal
         </button>
+        <input
+          type="date"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}
+          className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+        />
+
+        <div className="flex flex-col sm:flex-row sm:space-x-2 items-center border-l-2 pl-4 shadow-lg bg-white rounded-lg p-2">
+          <span className="text-gray-700 px-2">From</span>
+          <input
+            type="date"
+            value={minDate}
+            onChange={(e) => setMinDate(e.target.value)}
+            className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+          />
+          <span className="text-gray-700 px-2">To</span>
+          <input
+            type="date"
+            value={maxDate}
+            onChange={(e) => setMaxDate(e.target.value)}
+            className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+          />
+          <div className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-lg transition duration-200 flex items-center justify-center">
+            <button
+              type="button"
+              onClick={printerAll}
+              className="text-white-800 hover:text-white-900 flex items-center"
+            >
+              <FaPrint className="mr-1" /> PRINT
+            </button>
+          </div>
+        </div>
+
         <button
           onClick={logout}
           className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
         >
           Logout
         </button>
-        <input
-          type="date"
-          value={minDate}
-          onChange={(e) => setMinDate(e.target.value)}
-          className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
-        />
-        <input
-          type="date"
-          value={maxDate}
-          onChange={(e) => setMaxDate(e.target.value)}
-          className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
-        />
-        <div className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center">
-          <button
-            type="button"
-            onClick={printerAll}
-            className="text-white-800 hover:text-white-900 flex items-center"
-          >
-            <FaPrint className="mr-1" /> PRINT All
-          </button>
-        </div>
       </div>
       <div className="w-full max-w-6xl bg-white shadow-md rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
@@ -255,7 +278,7 @@ function Dashboard() {
                   </td>
                 </tr>
               ) : (
-                data.map((row, index) => (
+                filteredData.map((row, index) => (
                   <tr
                     key={row.KioskId}
                     className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
