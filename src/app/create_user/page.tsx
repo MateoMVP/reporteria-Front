@@ -3,22 +3,22 @@ import React, { ChangeEvent, useState } from "react";
 import AXIOS from "../config/axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { UserInterface } from "../interfaces/User";
+import Button from "../reportPersonal/template/components/Button";
 
 function Register() {
-
   const [registerData, setRegisterData] = useState<UserInterface>({
     name: "",
     username: "",
     password: "",
   });
 
- 
+  // Manejar cambios en los inputs
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value }); // Actualiza el estado dinámicamente
   };
 
-  
+  // Manejar registro
   const handleSubmitRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -28,18 +28,23 @@ function Register() {
         password: registerData.password,
       });
 
-      if (response.status === 200) {
+      if (response.status < 300) {
         toast.success("User registered successfully", {
           position: "top-right",
           autoClose: 3000,
           closeOnClick: true,
           transition: Bounce,
         });
-        setRegisterData({ name: "", username: "", password: "" }); // Limpiar formulario
+
+        // Asegurar que los inputs se vacíen
+        setRegisterData({ name: "", username: "", password: "" });
       }
     } catch (error) {
       console.error("Error en el registro de usuario", error);
-      toast.error("Registration error", { position: "top-right", autoClose: 3000 });
+      toast.error("Registration error", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -47,13 +52,18 @@ function Register() {
     <>
       <ToastContainer />
       <div className="flex min-h-screen items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
+      <Button ruta="/dashboard"/>
         <div className="w-full max-w-md space-y-8">
-          {/* Título del Registro */}
-          <h2 className="mt-10 text-center text-4xl font-bold text-blue-900">Register</h2>
+          <h2 className="mt-10 text-center text-4xl font-bold text-blue-900">
+            Register
+          </h2>
           <form onSubmit={handleSubmitRegister} className="mt-10 space-y-6">
             <div className="rounded-md shadow-sm space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Full Name
                 </label>
                 <input
@@ -62,13 +72,16 @@ function Register() {
                   name="name" // El nombre debe coincidir con la propiedad del estado
                   type="text"
                   required
-                  value={registerData.name}
+                  value={registerData.name} // Aseguramos que el input esté vinculado al estado
                   placeholder="Full Name"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm"
                 />
               </div>
               <div>
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Username
                 </label>
                 <input
@@ -77,13 +90,16 @@ function Register() {
                   name="username" // El nombre debe coincidir con la propiedad del estado
                   type="text"
                   required
-                  value={registerData.username}
+                  value={registerData.username} // Aseguramos que el input esté vinculado al estado
                   placeholder="Username"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm"
                 />
               </div>
               <div>
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Password
                 </label>
                 <input
@@ -92,7 +108,7 @@ function Register() {
                   name="password" // El nombre debe coincidir con la propiedad del estado
                   type="password"
                   required
-                  value={registerData.password}
+                  value={registerData.password} // Aseguramos que el input esté vinculado al estado
                   placeholder="Password"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-600 focus:border-blue-600 focus:z-10 sm:text-sm"
                 />
@@ -104,7 +120,7 @@ function Register() {
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
               >
                 Register
-              </button>
+              </button>              
             </div>
           </form>
         </div>

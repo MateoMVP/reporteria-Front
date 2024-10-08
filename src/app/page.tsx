@@ -34,9 +34,10 @@ function Login() {
           closeOnClick: true,
           transition: Bounce,
         });
-        const { token } = response.data;
+        const { token,username } = response.data;
         console.log("Se recibió el token", token);
         Cookies.set("authToken", token);
+        Cookies.set("username",username)
         router.push("/dashboard");
       } else {
         console.error("Error de autenticación");

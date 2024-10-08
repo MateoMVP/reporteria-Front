@@ -21,9 +21,11 @@ function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const [loading, setLoading] = useState(false);
-    
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+
   const currentUsername = Cookies.get("username");
-  
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -94,27 +96,37 @@ function Dashboard() {
     }
   };
   const printerAll = async () => {
-    const toastId = toast.info("In process..", { autoClose: false });
-    try {
-      const response = await AXIOS.get("/reportes/pdf", {
-        responseType: "blob", // Importante para manejar archivos binarios
+    if (!minDate || !maxDate) {
+      toast.error("Please select both dates", {
+        position: "top-right",
+        autoClose: 3000,
       });
+      return;
+    }
 
+    const toastId = toast.info("In process...", { autoClose: false });
+    try {
+      const response = await AXIOS.get(
+        `/reportes/pdf?minDate=${minDate}&maxDate=${maxDate}`,
+        {
+          responseType: "blob" 
+        }
+      );
       // Crear una URL para el blob recibido
       const url = window.URL.createObjectURL(new Blob([response.data]));
-
       // Crear un elemento de enlace temporal
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", "reportes.zip"); // Nombre del archivo a descargar
-
       // Agregar el enlace al DOM y hacer clic en él
       document.body.appendChild(link);
       link.click();
-
       // Limpiar
       link.parentNode?.removeChild(link);
       window.URL.revokeObjectURL(url);
+      // Limpiar los inputs de fechas
+      setMinDate("");
+      setMaxDate("");
       toast.update(toastId, {
         render: "Success.",
         autoClose: 3000,
@@ -141,12 +153,13 @@ function Dashboard() {
         >
           New Report
         </button>
-        {currentUsername === "EdwinR" && (<button
-          onClick={() => router.push("/create_user")}
-          className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
-        >
-          Create User
-        </button>
+        {currentUsername === "EdwinR" && (
+          <button
+            onClick={() => router.push("/create_user")}
+            className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
+          >
+            Create User
+          </button>
         )}
         <button
           onClick={() => router.push("/reportPersonal")}
@@ -160,6 +173,18 @@ function Dashboard() {
         >
           Logout
         </button>
+        <input
+          type="date"
+          value={minDate}
+          onChange={(e) => setMinDate(e.target.value)}
+          className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+        />
+        <input
+          type="date"
+          value={maxDate}
+          onChange={(e) => setMaxDate(e.target.value)}
+          className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+        />
         <div className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center">
           <button
             type="button"
