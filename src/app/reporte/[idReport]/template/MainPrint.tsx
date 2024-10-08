@@ -92,6 +92,9 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
           if (data.reporte.field) {
             setFieldValue("field", data.reporte.field);
           }
+          if (data.reporte.fecha) {
+            setFieldValue("fecha", data.reporte.fecha);
+          }
 
           setReporte(data.reporte);
         } else if (data.error) {
@@ -124,12 +127,14 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
           <form onSubmit={() => handleSubmit()}>
             <Header />
             <InfoReport
+              handleChange={handleChange}
               zip={reporte.zip}
               state={reporte.state}
               city={reporte.city}
               address={reporte.address}
               code={reporte.code}
               fecha={reporte.fecha}
+              values={values}
             />
             <InfoLine
               tecnicos={tecnicos}

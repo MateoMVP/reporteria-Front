@@ -1,4 +1,3 @@
-
 interface Props {
   address: string;
   city: string;
@@ -6,6 +5,10 @@ interface Props {
   zip: string;
   fecha: string;
   code: number;
+  values: {
+    fecha: string;
+  };
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function InfoReport({
@@ -15,6 +18,8 @@ export default function InfoReport({
   city,
   state,
   zip,
+  handleChange,
+  values,
 }: Props) {
   return (
     <div className="flex w-full justify-between pt-2">
@@ -29,7 +34,7 @@ export default function InfoReport({
       <div>
         <div>
           <span>Completation Date: </span>
-          {fecha.toString()}
+          <input type="date" name="fecha" value={values.fecha} onChange={handleChange} />
         </div>
         <div>
           <span>Code: </span> {" " + code}
