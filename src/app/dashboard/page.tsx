@@ -20,7 +20,9 @@ function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const [loading, setLoading] = useState(false);
-
+  
+  const currentUsername = Cookies.get("username");
+  
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -50,8 +52,10 @@ function Dashboard() {
   const openReport = (url: string) => {
     router.push("/reporte/" + url);
   };
+
   const logout = () => {
     Cookies.remove("authToken");
+    Cookies.remove("username");
     router.push("/");
   };
   const [isLoading, setIsLoading] = useState(false);
@@ -136,6 +140,13 @@ function Dashboard() {
         >
           New Report
         </button>
+        {currentUsername === "EdwinR" && (<button
+          onClick={() => router.push("/create_user")}
+          className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
+        >
+          Create User
+        </button>
+        )}
         <button
           onClick={() => router.push("/reportPersonal")}
           className="mb-2 sm:mb-0 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
