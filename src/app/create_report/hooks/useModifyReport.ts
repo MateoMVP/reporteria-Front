@@ -13,6 +13,7 @@ interface request {
   PictDef?: File | string | null;
   PictAft?: File | string | null;
   field: string;
+  fecha: string;
 }
 
 export default function useModifyReport(id: string, name?: string) {
@@ -23,6 +24,7 @@ export default function useModifyReport(id: string, name?: string) {
   const { handleSubmit, handleChange, setFieldValue, values } =
     useFormik<request>({
       initialValues: {
+        fecha: new Date().toISOString().split("T")[0],
         KioskId: "",
         field: "",
         nota: "",
