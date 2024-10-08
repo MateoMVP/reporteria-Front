@@ -12,6 +12,7 @@ interface DataDashboard {
   nota: string;
   name_tecnico: string;
   store_id: number;
+  address: string;
   _id: string;
 }
 
@@ -184,7 +185,7 @@ function Dashboard() {
                   Crew
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
-                  Note
+                  Address
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">
                   Store ID
@@ -243,7 +244,7 @@ function Dashboard() {
                       {row.name_tecnico}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {row.nota}
+                      {row.address}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {row.store_id}
