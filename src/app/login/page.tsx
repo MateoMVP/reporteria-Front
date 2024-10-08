@@ -33,8 +33,8 @@ function Login() {
           closeOnClick: true,
           transition: Bounce,
         });
-        const { token } = response.data;
-        console.log("Se recibió el token", token);
+        const { token,username } = response.data;
+        console.log("Se recibió el token", response.data);
         Cookies.set("authToken", token);
         Cookies.set("username", username);
       } else {
