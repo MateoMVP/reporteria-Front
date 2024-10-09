@@ -47,7 +47,7 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [onEdit, setOnEdit] = useState<boolean>(false);
   const [tecnico, setTecnico] = useState<string>("");
-  console.log(onEdit);
+
   const { handleChange, handleSubmit, setFieldValue, values } = useModifyReport(
     reporteId,
     tecnico

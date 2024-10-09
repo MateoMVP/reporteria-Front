@@ -78,7 +78,6 @@ export default function InfoLine({
           onChange={handleChange}
           className="bg-white rounded p-1"
           disabled={!onEdit}
-          required
         >
           <option value="">Select Field</option>
           <option value="Already Removed">Already Removed</option>

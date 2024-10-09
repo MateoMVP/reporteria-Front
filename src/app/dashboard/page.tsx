@@ -173,44 +173,47 @@ function Dashboard() {
             Create User
           </button>
         )}
-        <button
-          onClick={() => router.push("/reportPersonal")}
-          className="mb-2 sm:mb-0 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
-        >
-          Personal
-        </button>
+        {currentUsername === "EdwinR" && (
+          <button
+            onClick={() => router.push("/reportPersonal")}
+            className="mb-2 sm:mb-0 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
+          >
+            Personal
+          </button>
+        )}
         <input
           type="date"
           value={filterDate}
           onChange={(e) => setFilterDate(e.target.value)}
           className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
         />
-
-        <div className="flex flex-col sm:flex-row sm:space-x-2 items-center border-l-2 pl-4 shadow-lg bg-white rounded-lg p-2">
-          <span className="text-gray-700 px-2">From</span>
-          <input
-            type="date"
-            value={minDate}
-            onChange={(e) => setMinDate(e.target.value)}
-            className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
-          />
-          <span className="text-gray-700 px-2">To</span>
-          <input
-            type="date"
-            value={maxDate}
-            onChange={(e) => setMaxDate(e.target.value)}
-            className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
-          />
-          <div className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-lg transition duration-200 flex items-center justify-center">
-            <button
-              type="button"
-              onClick={printerAll}
-              className="text-white-800 hover:text-white-900 flex items-center"
-            >
-              <FaPrint className="mr-1" /> PRINT
-            </button>
+        {currentUsername === "EdwinR" && (
+          <div className="flex flex-col sm:flex-row sm:space-x-2 items-center border-l-2 pl-4 shadow-lg bg-white rounded-lg p-2">
+            <span className="text-gray-700 px-2">From</span>
+            <input
+              type="date"
+              value={minDate}
+              onChange={(e) => setMinDate(e.target.value)}
+              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+            />
+            <span className="text-gray-700 px-2">To</span>
+            <input
+              type="date"
+              value={maxDate}
+              onChange={(e) => setMaxDate(e.target.value)}
+              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+            />
+            <div className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-lg transition duration-200 flex items-center justify-center">
+              <button
+                type="button"
+                onClick={printerAll}
+                className="text-white-800 hover:text-white-900 flex items-center"
+              >
+                <FaPrint className="mr-1" /> PRINT
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <button
           onClick={logout}
@@ -305,12 +308,16 @@ function Dashboard() {
                       >
                         <FaEye className="mr-1" /> OPEN
                       </button>
-                      <button
-                        onClick={() => printer(row._id, row.KioskId.toString())}
-                        className="text-yellow-600 hover:text-yellow-900 flex items-center"
-                      >
-                        <FaPrint className="mr-1" /> PRINT
-                      </button>
+                      {currentUsername === "EdwinR" && (
+                        <button
+                          onClick={() =>
+                            printer(row._id, row.KioskId.toString())
+                          }
+                          className="text-yellow-600 hover:text-yellow-900 flex items-center"
+                        >
+                          <FaPrint className="mr-1" /> PRINT
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
