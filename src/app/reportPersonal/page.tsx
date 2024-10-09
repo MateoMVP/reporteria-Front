@@ -104,7 +104,7 @@ function ReportesTecnico() {
                       className="cursor-pointer hover:bg-gray-100"
                     >
                       <td className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center">
-                        {new Date(reporte.fecha).toLocaleDateString()}
+                        {reporte.fecha}
                       </td>
                       <td className="px-2 py-1 sm:px-4 sm:py-2 border border-gray-400 text-center">
                         {reporte.KioskId}
