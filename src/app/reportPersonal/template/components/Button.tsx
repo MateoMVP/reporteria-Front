@@ -27,9 +27,11 @@ const Button: React.FC<ButtonProps> = ({ ruta }) => {
       try {
         const response = await AXIOS.get<
           | {
-              name: string;
-              username: string;
-            }[]
+              users: {
+                name: string;
+                username: string;
+              }[];
+            }
           | {
               error: string;
             }
@@ -39,7 +41,7 @@ const Button: React.FC<ButtonProps> = ({ ruta }) => {
           console.error(response.data.error);
           setError(response.data.error);
         } else {
-          setUsers(response.data);
+          setUsers(response.data.users);
         }
       } catch (err) {
         console.error("Error al obtener los usuarios:", err);
@@ -48,7 +50,8 @@ const Button: React.FC<ButtonProps> = ({ ruta }) => {
     };
 
     fetchUsers();
-  }, []);
+  }, [openModal]);
+  console.log(users);
   const deleteUser = async (username: string) => {
     if (!confirm("Delete user?")) {
       return;
@@ -107,7 +110,7 @@ const Button: React.FC<ButtonProps> = ({ ruta }) => {
                     </h3>
                     <div className="mt-2 w-full">
                       <p className="text-sm text-gray-500">List of all users</p>
-                      <ul className="mt-4 w-full">
+                      <ul className="mt-4 w-full gap-2 flex flex-col">
                         {users.map((user, index) => (
                           <li
                             key={index}
