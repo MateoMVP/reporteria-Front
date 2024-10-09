@@ -19,9 +19,9 @@ export default function ImagesReport({
 }: Props) {
   console.log("PictAft", PictAft);
   return (
-    <div className="grid grid-cols-2 w-full place-items-center gap-3 pb-4">
+    <div className="grid md:grid-cols-2 w-full place-items-center md:gap-3 gap-5 pb-4">
       <div className="w-[300px] h-[330px]">
-        <div className="flex gap-2 text-[12px]">
+        <div className="flex flex-col md:flex-row gap-2 text-[12px]">
           <div className="font-bold">Front Store</div>
           <input
             disabled={!onEdit}
@@ -45,7 +45,7 @@ export default function ImagesReport({
         )}
       </div>
       <div className="w-[300px] h-[330px]">
-        <div className="flex gap-2 text-[12px]">
+        <div className="flex flex-col md:flex-row gap-2 text-[12px]">
           <div className="font-bold">Equipment</div>
           <input
             disabled={!onEdit}
@@ -69,7 +69,7 @@ export default function ImagesReport({
         )}
       </div>
       <div className="w-[300px] h-[330px]">
-        <div className="flex gap-2 text-[12px]">
+        <div className="flex flex-col md:flex-row gap-2 text-[12px]">
           <div className="font-bold ">Connections</div>
           <input
             disabled={!onEdit}
@@ -93,7 +93,7 @@ export default function ImagesReport({
         )}
       </div>
       <div className="w-[300px] h-[330px]">
-        <div className="flex gap-2 text-[12px]">
+        <div className="flex flex-col md:flex-row gap-2 text-[12px]">
           <div className="font-bold">Disconnected</div>
           <input
             disabled={!onEdit}

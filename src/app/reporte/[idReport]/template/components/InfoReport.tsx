@@ -24,7 +24,7 @@ export default function InfoReport({
   onEdit,
 }: Props) {
   return (
-    <div className="flex w-full justify-between pt-2">
+    <div className="flex w-full flex-col md:flex-row md:justify-between pt-2">
       <div className="flex flex-col">
         <div>{address}</div>
         <div>{city}</div>

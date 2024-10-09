@@ -123,7 +123,7 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
   if (reporte) {
     return (
       <div className="grid w-full place-items-center bg-gray-500">
-        <div className="p-2 bg-white w-[816px] md:px-5 m-4">
+        <div className="p-2 bg-white md:w-[816px] md:px-5 m-4">
           <form onSubmit={() => handleSubmit()}>
             <Header />
             <InfoReport
