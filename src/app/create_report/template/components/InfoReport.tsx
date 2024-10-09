@@ -21,7 +21,7 @@ interface Props {
 
 export default function InfoReport({ site, handleChange, values }: Props) {
   return (
-    <div className="flex w-full justify-between pt-2">
+    <div className="flex w-full flex-col md:flex-row md:justify-between pt-2">
       <div className="flex flex-col">
         <div>{site?.address}</div>
         <div>{site?.city}</div>

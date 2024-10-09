@@ -12,9 +12,9 @@ type Props = {
 };
 export default function ImagesReport({ values, setFieldValue }: Props) {
   return (
-    <div className="grid grid-cols-2 w-full place-items-center gap-3 pb-4">
+    <div className="grid md:grid-cols-2 w-full place-items-center gap-3 pb-4">
       <div className=" bg-gray-300 w-[300px] h-[320px]">
-        <div className="flex gap-2 bg-white text-[12px]">
+        <div className="flex flex-col md:flex-row gap-2 bg-white text-[12px]">
           <div className="font-bold">Front Store</div>
           <input
             accept="image/*"
@@ -38,7 +38,7 @@ export default function ImagesReport({ values, setFieldValue }: Props) {
         )}
       </div>
       <div className=" bg-gray-300 w-[300px] h-[320px]">
-        <div className="flex gap-2 text-[12px] bg-white">
+        <div className="flex flex-col md:flex-row gap-2 text-[12px] bg-white">
           <div className="font-bold ">Equipment</div>
           <input
             accept="image/*"
@@ -62,7 +62,7 @@ export default function ImagesReport({ values, setFieldValue }: Props) {
         )}
       </div>
       <div className=" bg-gray-300 w-[300px] h-[320px]">
-        <div className="flex gap-2 text-[12px] bg-white">
+        <div className="flex flex-col md:flex-row gap-2 text-[12px] bg-white">
           <div className="font-bold ">Connections</div>
           <input
             accept="image/*"
@@ -86,7 +86,7 @@ export default function ImagesReport({ values, setFieldValue }: Props) {
         )}
       </div>
       <div className=" bg-gray-300 w-[300px] h-[320px]">
-        <div className="flex gap-2 text-[12px] bg-white">
+        <div className="flex flex-col md:flex-row gap-2 text-[12px] bg-white">
           <div className="font-bold ">Disconnected</div>
           <input
             accept="image/*"

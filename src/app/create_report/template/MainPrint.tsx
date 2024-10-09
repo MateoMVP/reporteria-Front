@@ -42,7 +42,7 @@ export default function MainPrint({ reporteId }: { reporteId: string }) {
   return (
     <div className="grid w-full place-items-center bg-gray-500">
       <ToastContainer />
-      <div className="p-2 bg-white w-[816px] md:px-5 m-4">
+      <div className="p-2 bg-white md:w-[816px] md:px-5 m-4">
         <form onSubmit={handleSubmit}>
           <Header />
           <InfoReport values={values} handleChange={handleChange} site={site} />
