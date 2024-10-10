@@ -75,7 +75,7 @@ function Dashboard() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <ToastContainer />
-      <div className="flex justify-between w-full items-center">
+      <div className="flex flex-col md:flex-row justify-between w-full items-center">
         <div>
           <img
             src="http://localhost:3000/redbox/coolsys.webp"
