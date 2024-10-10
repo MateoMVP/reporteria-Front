@@ -6,12 +6,9 @@ import React, {
   MouseEventHandler,
 } from "react";
 import AXIOS from "@/app/config/axios";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 import Cookies from "js-cookie";
-import { FaEye, FaPrint } from "react-icons/fa";
-import moment from "moment";
-
+import NewYorkClock from "./mi-reloj/reloj";
 interface DataDashboard {
   KioskId: number;
   fecha: string;
@@ -31,7 +28,6 @@ function Dashboard() {
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
   const [filteredData, setFilteredData] = useState<DataDashboard[]>([]);
-  const [filterDate, setFilterDate] = useState("");
 
   const currentUsername = Cookies.get("username");
 
@@ -55,14 +51,6 @@ function Dashboard() {
 
   useEffect(() => {
     const filtered = data.filter((item) => {
-      const itemDate = new Date(item.fecha).toISOString().split("T")[0];
-      return filterDate ? itemDate === filterDate : true; // Filtrar por fecha si hay una fecha seleccionada
-    });
-    setFilteredData(filtered); // Actualizamos los datos filtrados
-  }, [filterDate, data]); // Ejecutar el filtro cada vez que cambie la fecha o los datos
-
-  useEffect(() => {
-    const filtered = data.filter((item) => {
       return (
         item?.KioskId.toString().includes(search) ||
         item?.name_tecnico
@@ -73,123 +61,35 @@ function Dashboard() {
           ?.toString()
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        item?.store_id?.toString().includes(search)
+        item?.store_id?.toString().includes(search) ||
+        item?.fecha.includes(search)
       );
     });
     setFilteredData(filtered);
   }, [data, search]);
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
-  };
-
-  const router = useRouter();
-  const openReport = (url: string) => {
-    router.push("/reporte/" + url);
-  };
-
-  const logout = () => {
-    Cookies.remove("authToken");
-    Cookies.remove("username");
-    router.push("/");
-  };
   const [isLoading, setIsLoading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
   const [toastRef, setToastRef] = useState<null | number | string>(null);
 
-  const printer = async (id: string, kiosk: string) => {
-    const toastId = toast.info("In process...", { autoClose: false });
-
-    try {
-      // Asegúrate de que la URL esté apuntando al servidor backend (3005)
-      const baseUrl = AXIOS.defaults.baseURL;
-      const fileURL = `${baseUrl}/reportes/pdf/${id}`;
-
-      // Crear un enlace temporal para forzar la descarga
-      const link = document.createElement("a");
-      link.href = fileURL;
-      link.setAttribute("download", `report_${kiosk}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      toast.update(toastId, {
-        render: "Success.",
-        autoClose: 3000,
-      });
-    } catch (error: any) {
-      console.error("Error al generar el reporte:", error);
-      toast.update(toastId, {
-        render: "Error.",
-        autoClose: 5000,
-      });
-    } finally {
-      setDownloadProgress(null);
-    }
-  };
-  const printerAll = async () => {
-    if (!minDate || !maxDate) {
-      toast.error("Please select both dates", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-      return;
-    }
-
-    const toastId = toast.info("In process...", { autoClose: false });
-    try {
-      const response = await AXIOS.get(
-        `/reportes/pdf?minDate=${minDate}&maxDate=${maxDate}`,
-        {
-          responseType: "blob",
-        }
-      );
-      // Crear una URL para el blob recibido
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      // Crear un elemento de enlace temporal
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "reportes.zip"); // Nombre del archivo a descargar
-      // Agregar el enlace al DOM y hacer clic en él
-      document.body.appendChild(link);
-      link.click();
-      // Limpiar
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-      // Limpiar los inputs de fechas
-      setMinDate("");
-      setMaxDate("");
-      toast.update(toastId, {
-        render: "Success.",
-        autoClose: 3000,
-      });
-    } catch (error) {
-      console.error("Error al descargar el archivo:", error);
-      toast.update(toastId, {
-        render: "Error",
-        autoClose: 5000,
-      });
-    }
-  };
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <ToastContainer />
-      <h1 className="text-4xl font-extrabold mb-6 text-center text-indigo-800">
-        Dashboard
-      </h1>
-      <div className="flex flex-col sm:flex-row sm:space-x-4 mb-6">
-        <input
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}
-          className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
-        />
+      <div className="flex justify-between w-full items-center">
+        <div>
+          <img
+            src="http://localhost:3000/redbox/coolsys.webp"
+            className="w-[300px] h-[300px] object-contain"
+          />
+        </div>
+        <h1 className="text-4xl font-extrabold mb-6 text-center text-indigo-800">
+          RedBox Live Update
+        </h1>
+        <div>
+          <NewYorkClock timeZone="America/New_York" />
+        </div>
       </div>
+
       <div className="grid grid-flow-col gap-2 place-items-center">
         <div className="grid gap-2 grid-flow-col place-items-center ">
           <label className="text-gray-700">Search: </label>

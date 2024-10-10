@@ -30,6 +30,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/reporteCarta/[idReport]/template/MainPrint.tsx"
-  ],
+, "src/app/read/dashboard/mi-reloj/reloj.tsx"  ],
   "exclude": ["node_modules"]
 }

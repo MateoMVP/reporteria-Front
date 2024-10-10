@@ -6,7 +6,8 @@ export async function middleware(request: NextRequest) {
   if (
     !token &&
     !request.nextUrl.pathname.includes("_next") &&
-    !request.nextUrl.pathname.includes("read/dashboard")
+    !request.nextUrl.pathname.includes("read/dashboard") &&
+    !request.nextUrl.pathname.includes("coolsys")
   ) {
     const clonedUrl = request.nextUrl.clone();
     clonedUrl.pathname = "/";
