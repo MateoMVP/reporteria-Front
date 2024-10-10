@@ -1,5 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  EventHandler,
+  MouseEventHandler,
+} from "react";
 import AXIOS from "../config/axios"; // Axios config
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -18,6 +23,7 @@ interface DataDashboard {
 }
 
 function Dashboard() {
+  const [search, setSearch] = useState<string>("");
   const [data, setData] = useState<DataDashboard[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
@@ -54,6 +60,21 @@ function Dashboard() {
     });
     setFilteredData(filtered); // Actualizamos los datos filtrados
   }, [filterDate, data]); // Ejecutar el filtro cada vez que cambie la fecha o los datos
+
+  useEffect(() => {
+    const filtered = data.filter((item) => {
+      return (
+        item?.KioskId.toString().includes(search) ||
+        item?.name_tecnico
+          .toString()
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        item?.address?.toString().toLowerCase().includes(search.toLowerCase()) ||
+        item?.store_id?.toString().includes(search)
+      );
+    });
+    setFilteredData(filtered);
+  }, [data, search]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -221,6 +242,18 @@ function Dashboard() {
         >
           Logout
         </button>
+      </div>
+      <div className="grid grid-flow-col place-items-center">
+        <div>
+          <label className="text-gray-700">Search: </label>
+          <input
+            type="search"
+            onChange={(event) => {
+              setSearch(event.target.value);
+            }}
+            className="border border-black rounded p-2 my-2"
+          />
+        </div>
       </div>
       <div className="w-full max-w-6xl bg-white shadow-md rounded-lg overflow-hidden">
         <div className="overflow-x-auto">

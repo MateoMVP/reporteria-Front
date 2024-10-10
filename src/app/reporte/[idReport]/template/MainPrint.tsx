@@ -146,7 +146,7 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
               values={values}
               onEdit={onEdit}
             />
-            <Note note={reporte.nota} />
+            <Note onChange={handleChange} note={values.nota} />
             <ImagesReport
               onEdit={onEdit}
               PictAft={values.PictAft}
