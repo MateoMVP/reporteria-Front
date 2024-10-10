@@ -3,8 +3,11 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("authToken"); // Usamos las cookies del servidor
-  if (!token && !request.nextUrl.pathname.includes("_next")) {
-
+  if (
+    !token &&
+    !request.nextUrl.pathname.includes("_next") &&
+    !request.nextUrl.pathname.includes("read/dashboard")
+  ) {
     const clonedUrl = request.nextUrl.clone();
     clonedUrl.pathname = "/";
     return NextResponse.rewrite(clonedUrl);
@@ -13,7 +16,6 @@ export async function middleware(request: NextRequest) {
     clonedUrl.pathname = "/dashboard";
     return NextResponse.redirect(clonedUrl);
   } else {
-    
     return NextResponse.next();
   }
   // Si hay token, permitir el acceso a la página solicitada
