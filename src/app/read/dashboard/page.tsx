@@ -78,7 +78,7 @@ function Dashboard() {
       <div className="flex flex-col md:flex-row justify-between w-full items-center">
         <div>
           <img
-            src="http://localhost:3000/redbox/coolsys.webp"
+            src="/coolsys.webp"
             className="w-[300px] h-[300px] object-contain"
           />
         </div>
