@@ -12,7 +12,7 @@ import useGetOneSite from "../hooks/useGetOneSite";
 import useCreateReport from "../hooks/useCreateReport";
 import useGettecnicos from "../hooks/useGetTecnicos";
 import { ToastContainer } from "react-toastify";
-
+import Cookies from "js-cookie";
 interface Props {
   reporte: {
     KioskId: string;
@@ -36,8 +36,13 @@ interface Props {
 export default function MainPrint({ reporteId }: { reporteId: string }) {
   const { kioskIds, loading } = useGetKioskIds();
   const { tecnicos, loading: loadTec } = useGettecnicos();
-  const { values, handleChange, handleSubmit, setFieldValue } =
-    useCreateReport();
+  const token = Cookies.get("username") as string;
+  if (!token) {
+    return <div>Token not found</div>;
+  }
+  const { values, handleChange, handleSubmit, setFieldValue } = useCreateReport(
+    { username: token }
+  );
   const { site, loading: loadingSite } = useGetOneSite(values.KioskId);
   return (
     <div className="grid w-full place-items-center bg-gray-500">
@@ -45,7 +50,12 @@ export default function MainPrint({ reporteId }: { reporteId: string }) {
       <div className="p-2 bg-white md:w-[816px] md:px-5 m-4">
         <form onSubmit={handleSubmit}>
           <Header />
-          <InfoReport values={values} handleChange={handleChange} site={site} />
+          <InfoReport
+            username={token}
+            values={values}
+            handleChange={handleChange}
+            site={site}
+          />
           <InfoLine
             tecnicos={tecnicos}
             kiosks={kioskIds}

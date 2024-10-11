@@ -17,9 +17,15 @@ interface Props {
   values: {
     fecha: string;
   };
+  username: string;
 }
 
-export default function InfoReport({ site, handleChange, values }: Props) {
+export default function InfoReport({
+  site,
+  handleChange,
+  values,
+  username,
+}: Props) {
   return (
     <div className="flex w-full flex-col md:flex-row md:justify-between pt-2">
       <div className="flex flex-col">
@@ -38,6 +44,7 @@ export default function InfoReport({ site, handleChange, values }: Props) {
             name="fecha"
             value={values.fecha}
             onChange={handleChange}
+            disabled={username !== "EdwinR"}
           />
         </div>
         <div>

@@ -16,7 +16,7 @@ interface request {
   fecha: string;
 }
 
-export default function useCreateReport() {
+export default function useCreateReport({ username }: { username: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -32,7 +32,11 @@ export default function useCreateReport() {
         PictDef: undefined,
         PictAft: undefined,
         field: "",
-        fecha: new Date().toISOString().split("T")[0],
+        fecha: new Date(
+          new Date().getTime() - new Date().getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .split("T")[0],
       },
       onSubmit: async (values) => {
         setLoading(true);
@@ -56,7 +60,17 @@ export default function useCreateReport() {
           formData.append("field", values.field);
         }
         if (values.fecha) {
-          formData.append("fecha", values.fecha);
+          const fechaActual = new Date();
+          const fechaISO = new Date(
+            fechaActual.getTime() - fechaActual.getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .split("T")[0];
+          if (username === "EdwinR") {
+            formData.append("fecha", values.fecha);
+          } else {
+            formData.append("fecha", fechaISO);
+          }
         }
         try {
           await AXIOS.post("/insertar_reportes", formData);

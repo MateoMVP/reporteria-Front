@@ -32,7 +32,6 @@ export default function InfoLine({
   kiosks,
   tecnicos,
 }: Props) {
-  console.log(values.KioskId);
   return (
     <div className="bg-blue-100 border text-[14px] border-black  p-2 w-full flex flex-col md:flex-row md:justify-between mt-2 ">
       <div className="flex flex-col  gap-5">

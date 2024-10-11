@@ -12,7 +12,7 @@ import useModifyReport from "@/app/create_report/hooks/useModifyReport";
 import useGettecnicos from "@/app/create_report/hooks/useGetTecnicos";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-
+import Cookies from "js-cookie";
 interface ReporteProps {
   KioskId: string;
   fecha: string;
@@ -42,6 +42,10 @@ interface MainPrintProps {
 }
 
 const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
+  const token = Cookies.get("username") as string;
+  if (!token) {
+    return <div>Token not found</div>;
+  }
   const [reporte, setReporte] = useState<ReporteProps | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -158,28 +162,34 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
             <div className="w-full bg-black h-[1px]" />
             <div className="p-2 font-bold text-red-500">RED BOX</div>
             <div className="flex gap-3">
-              <button
-                className="p-2 rounded disabled:bg-gray-500 bg-blue-400 hover:bg-blue-600"
-                disabled={!onEdit}
-                type="submit"
-              >
-                Save
-              </button>
-              <button
-                className="p-2 rounded disabled:bg-gray-500 bg-orange-400 hover:bg-blue-600"
-                disabled={onEdit}
-                onClick={() => setOnEdit(true)}
-                type="button"
-              >
-                Edit
-              </button>
-              <button
-                onClick={deleteReport}
-                className="p-2 rounded disabled:bg-gray-500 bg-red-400 hover:bg-blue-600"
-                type="button"
-              >
-                Delete
-              </button>{" "}
+              {token === "EdwinR" && (
+                <button
+                  className="p-2 rounded disabled:bg-gray-500 bg-blue-400 hover:bg-blue-600"
+                  disabled={!onEdit}
+                  type="submit"
+                >
+                  Save
+                </button>
+              )}
+              {token === "EdwinR" && (
+                <button
+                  className="p-2 rounded disabled:bg-gray-500 bg-orange-400 hover:bg-blue-600"
+                  disabled={onEdit}
+                  onClick={() => setOnEdit(true)}
+                  type="button"
+                >
+                  Edit
+                </button>
+              )}
+              {token === "EdwinR" && (
+                <button
+                  onClick={deleteReport}
+                  className="p-2 rounded disabled:bg-gray-500 bg-red-400 hover:bg-blue-600"
+                  type="button"
+                >
+                  Delete
+                </button>
+              )}{" "}
               <button
                 onClick={() => router.push("/")}
                 className="p-2 rounded disabled:bg-gray-500 bg-blue-400 hover:bg-blue-600"
