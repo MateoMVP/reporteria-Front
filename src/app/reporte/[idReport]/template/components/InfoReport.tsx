@@ -40,6 +40,7 @@ export default function InfoReport({
             disabled={!onEdit}
             type="date"
             name="fecha"
+            id="fecha"
             value={values.fecha}
             onChange={handleChange}
           />

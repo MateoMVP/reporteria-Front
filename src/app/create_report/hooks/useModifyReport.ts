@@ -24,7 +24,11 @@ export default function useModifyReport(id: string, name?: string) {
   const { handleSubmit, handleChange, setFieldValue, values } =
     useFormik<request>({
       initialValues: {
-        fecha: new Date().toISOString().split("T")[0],
+        fecha: new Date(
+          new Date().getTime() - new Date().getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .split("T")[0],
         KioskId: "",
         field: "",
         nota: "",
@@ -57,13 +61,14 @@ export default function useModifyReport(id: string, name?: string) {
           formData.append("field", values.field);
         }
         if (values.fecha) {
+          console.log("values.fecha",typeof values.fecha);
           formData.append("fecha", values.fecha);
         }
         try {
           await AXIOS.patch("/actualizar_reporte/" + id, formData);
           setSuccess(true);
           toast.success("Report created successfully");
-          //   router.push("/dashboard");
+          // router.push("/dashboard");
         } catch (error) {
           console.error("Error creating report", error);
           toast.error("Error creating report");

@@ -128,7 +128,13 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
     return (
       <div className="grid w-full place-items-center bg-gray-500">
         <div className="p-2 bg-white md:w-[816px] md:px-5 m-4">
-          <form onSubmit={() => handleSubmit()}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setOnEdit(false);
+              handleSubmit(e);
+            }}
+          >
             <Header />
             <InfoReport
               onEdit={onEdit}
@@ -138,7 +144,7 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
               city={reporte.city}
               address={reporte.address}
               code={reporte.code}
-              fecha={reporte.fecha}
+              fecha={values.fecha}
               values={values}
             />
             <InfoLine
