@@ -245,8 +245,8 @@ function Dashboard() {
           Logout
         </button>
       </div>
-      <div className="grid grid-flow-col place-items-center">
-        <div>
+      <div className="grid grid-flow-col gap-2 place-items-center">
+        <div className="grid gap-2 grid-flow-col place-items-center ">
           <label className="text-gray-700">Search: </label>
           <input
             type="search"
@@ -256,6 +256,7 @@ function Dashboard() {
             className="border border-black rounded p-2 my-2"
           />
         </div>
+        Total: {filteredData.length}
       </div>
       <div className="w-full max-w-6xl bg-white shadow-md rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
