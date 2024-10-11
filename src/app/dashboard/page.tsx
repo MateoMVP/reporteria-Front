@@ -204,12 +204,16 @@ function Dashboard() {
             Personal
           </button>
         )}
-        <input
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}
-          className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
-        />
+        <div className="grid place-items-center">
+          <label className="text-gray-700 font-bold">Filter by date: </label>
+          <input
+            id="dateFILTER"
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+          />
+        </div>
         {currentUsername === "EdwinR" && (
           <div className="flex flex-col sm:flex-row sm:space-x-2 items-center border-l-2 pl-4 shadow-lg bg-white rounded-lg p-2">
             <span className="text-gray-700 px-2">From</span>
@@ -245,7 +249,7 @@ function Dashboard() {
           Logout
         </button>
       </div>
-      <div className="grid grid-flow-col gap-2 place-items-center">
+      <div className="grid  md:grid-flow-col gap-2 place-items-center">
         <div className="grid gap-2 grid-flow-col place-items-center ">
           <label className="text-gray-700">Search: </label>
           <input
@@ -256,7 +260,23 @@ function Dashboard() {
             className="border border-black rounded p-2 my-2"
           />
         </div>
-        Total: {filteredData.length}
+        <div>Total: {filteredData.length}</div>
+        <div
+          className="hover:brightness-75 hover:filter hover:grayscale-100 cursor-pointer hover:scale-125  transition duration-200"
+          onClick={() => {
+            const url = new URL(window.location.href);
+            url.pathname = "/redbox/read/dashboard";
+            navigator.clipboard.writeText(
+              JSON.stringify(url, null, 2).replace(/"/g, "")
+            );
+            toast.success("Data copied to clipboard.");
+          }}
+        >
+          <img
+            src="https://www.svgrepo.com/show/136572/copy.svg"
+            className="w-[20px] h-[20px] object-contain"
+          />
+        </div>
       </div>
       <div className="w-full max-w-6xl bg-white shadow-md rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
