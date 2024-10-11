@@ -25,8 +25,6 @@ interface DataDashboard {
 function Dashboard() {
   const [search, setSearch] = useState<string>("");
   const [data, setData] = useState<DataDashboard[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage] = useState(5);
   const [loading, setLoading] = useState(false);
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
@@ -39,8 +37,17 @@ function Dashboard() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await AXIOS.get(`/reportes`);
-        console.log("response", response.data);
+        const response = await AXIOS.get<
+          {
+            KioskId: number;
+            fecha: string;
+            nota: string;
+            name_tecnico: string;
+            store_id: number;
+            address: string;
+            _id: string;
+          }[]
+        >(`/reportes`);
         setData(response.data);
         setFilteredData(response.data);
         setLoading(false);
@@ -51,7 +58,7 @@ function Dashboard() {
     };
 
     fetchData();
-  }, [currentPage]);
+  }, []);
 
   useEffect(() => {
     const filtered = data.filter((item) => {
@@ -69,20 +76,15 @@ function Dashboard() {
           .toString()
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        item?.address?.toString().toLowerCase().includes(search.toLowerCase()) ||
+        item?.address
+          ?.toString()
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
         item?.store_id?.toString().includes(search)
       );
     });
     setFilteredData(filtered);
   }, [data, search]);
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
-  };
 
   const router = useRouter();
   const openReport = (url: string) => {
@@ -97,7 +99,7 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
   const [toastRef, setToastRef] = useState<null | number | string>(null);
-
+  const [sort, setSort] = useState<"asc" | "desc">("asc");
   const printer = async (id: string, kiosk: string) => {
     const toastId = toast.info("In process...", { autoClose: false });
 
@@ -179,17 +181,17 @@ function Dashboard() {
       <h1 className="text-4xl font-extrabold mb-6 text-center text-indigo-800">
         Dashboard
       </h1>
-      <div className="flex flex-col sm:flex-row sm:space-x-4 mb-6">
+      <div className="grid  md:grid-cols-3 place-items-center sm:flex-row sm:space-x-4 mb-6">
         <button
           onClick={() => router.push("/create_report")}
-          className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
+          className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-md shadow-md transition duration-200 flex items-center justify-center"
         >
           New Report
         </button>
         {currentUsername === "EdwinR" && (
           <button
             onClick={() => router.push("/create_user")}
-            className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
+            className="mb-2 sm:mb-0 bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-md shadow-md transition duration-200 flex items-center justify-center"
           >
             Create User
           </button>
@@ -197,7 +199,7 @@ function Dashboard() {
         {currentUsername === "EdwinR" && (
           <button
             onClick={() => router.push("/reportPersonal")}
-            className="mb-2 sm:mb-0 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-md transition duration-200 flex items-center justify-center"
+            className="mb-2 sm:mb-0 bg-yellow-600 hover:bg-yellow-700 text-white p-2 rounded-md shadow-md transition duration-200 flex items-center justify-center"
           >
             Personal
           </button>
@@ -215,16 +217,16 @@ function Dashboard() {
               type="date"
               value={minDate}
               onChange={(e) => setMinDate(e.target.value)}
-              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800  rounded-md shadow-md transition duration-200"
             />
             <span className="text-gray-700 px-2">To</span>
             <input
               type="date"
               value={maxDate}
               onChange={(e) => setMaxDate(e.target.value)}
-              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800 px-4 py-2 rounded-md shadow-md transition duration-200"
+              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800  rounded-md shadow-md transition duration-200"
             />
-            <div className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-md shadow-lg transition duration-200 flex items-center justify-center">
+            <div className="bg-yellow-600 hover:bg-yellow-700 text-white p-2 rounded-md shadow-lg transition duration-200 flex items-center justify-center">
               <button
                 type="button"
                 onClick={printerAll}
