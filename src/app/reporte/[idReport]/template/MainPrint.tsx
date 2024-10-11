@@ -43,9 +43,7 @@ interface MainPrintProps {
 
 const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
   const token = Cookies.get("username") as string;
-  if (!token) {
-    return <div>Token not found</div>;
-  }
+
   const [reporte, setReporte] = useState<ReporteProps | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -123,7 +121,9 @@ const MainPrint: React.FC<MainPrintProps> = ({ reporteId }) => {
   if (error) {
     return <div className="text-red-500">{error}</div>;
   }
-
+  if (!token) {
+    return <div>Token not found</div>;
+  }
   if (reporte) {
     return (
       <div className="grid w-full place-items-center bg-gray-500">

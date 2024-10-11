@@ -37,13 +37,15 @@ export default function MainPrint({ reporteId }: { reporteId: string }) {
   const { kioskIds, loading } = useGetKioskIds();
   const { tecnicos, loading: loadTec } = useGettecnicos();
   const token = Cookies.get("username") as string;
-  if (!token) {
-    return <div>Token not found</div>;
-  }
+
   const { values, handleChange, handleSubmit, setFieldValue } = useCreateReport(
     { username: token }
   );
   const { site, loading: loadingSite } = useGetOneSite(values.KioskId);
+
+  if (!token) {
+    return <div>Token not found</div>;
+  }
   return (
     <div className="grid w-full place-items-center bg-gray-500">
       <ToastContainer />
