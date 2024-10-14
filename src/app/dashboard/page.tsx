@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { FaEye, FaPrint } from "react-icons/fa";
 import moment from "moment";
+import { AxiosError } from "axios";
 
 interface DataDashboard {
   KioskId: number;
@@ -168,10 +169,19 @@ function Dashboard() {
       });
     } catch (error) {
       console.error("Error al descargar el archivo:", error);
-      toast.update(toastId, {
-        render: "Error",
-        autoClose: 5000,
-      });
+      if (error instanceof AxiosError) {
+        toast.update(toastId, {
+          render: "Error: " + error.response?.data,
+          autoClose: 5000,
+          type: "error",
+        });
+      } else if (error instanceof Error) {
+        toast.update(toastId, {
+          render: "Error: " + error.message,
+          autoClose: 5000,
+          type: "error",
+        });
+      }
     }
   };
 
