@@ -21,7 +21,10 @@ interface reportesPerTecnico {
 
 function ReportesTecnico() {
   const [reportes, setReportes] = useState<InfoReporte[]>(); // Datos de los reportes
+  const [filteredReportes, setFilteredReportes] = useState<InfoReporte[]>(); // Datos de los reportes filtrados
   const [loading, setLoading] = useState(false);
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
   const router = useRouter(); // Para redirigir
 
   // Llamada al backend para obtener los reportes
@@ -44,12 +47,38 @@ function ReportesTecnico() {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    if (reportes) {
+      setFilteredReportes(reportes);
+    }
+  }, [reportes]);
+  useEffect(() => {
+    if (minDate && maxDate && reportes) {
+      const filtered = reportes?.filter((reporte) => {
+        return (
+          new Date(reporte.fecha) >= new Date(minDate) &&
+          new Date(reporte.fecha) <= new Date(maxDate)
+        );
+      });
+      setFilteredReportes(filtered);
+    } else if (minDate && reportes) {
+      const filtered = reportes?.filter((reporte) => {
+        return new Date(reporte.fecha) >= new Date(minDate);
+      });
+      setFilteredReportes(filtered);
+    } else if (maxDate && reportes) {
+      const filtered = reportes?.filter((reporte) => {
+        return new Date(reporte.fecha) <= new Date(maxDate);
+      });
+      setFilteredReportes(filtered);
+    }
+  }, [maxDate, minDate]);
   const [reportesPorTecnico, setReportesPorTecnico] =
     useState<reportesPerTecnico>({});
   useEffect(() => {
-    if (reportes) {
+    if (filteredReportes) {
       const reportesPorTecnico: reportesPerTecnico = {};
-      reportes.forEach((reporte) => {
+      filteredReportes.forEach((reporte) => {
         if (!reportesPorTecnico[reporte.name_tecnico]) {
           reportesPorTecnico[reporte.name_tecnico] = [];
         }
@@ -57,7 +86,7 @@ function ReportesTecnico() {
       });
       setReportesPorTecnico(reportesPorTecnico);
     }
-  }, [reportes]);
+  }, [filteredReportes]);
   // Función para manejar el clic en cada fila
   const handleRowClick = (_id: string) => {
     router.push(`/reporte/${_id}`); // Redirigir a la vista de reporte específico
@@ -71,6 +100,24 @@ function ReportesTecnico() {
       </h1>
       <div className="w-full max-w-6xl overflow-x-auto">
         <Button ruta="/dashboard" />
+        <div className=" flex flex-col items-center">
+          <div className="flex flex-col w-min sm:flex-row sm:space-x-2 items-center border-l-2 pl-4 shadow-lg bg-white rounded-lg p-2">
+            <span className="text-gray-700 px-2">From</span>
+            <input
+              type="date"
+              value={minDate}
+              onChange={(e) => setMinDate(e.target.value)}
+              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800  rounded-md shadow-md transition duration-200"
+            />
+            <span className="text-gray-700 px-2">To</span>
+            <input
+              type="date"
+              value={maxDate}
+              onChange={(e) => setMaxDate(e.target.value)}
+              className="mb-2 sm:mb-0 bg-gray-100 text-gray-800  rounded-md shadow-md transition duration-200"
+            />
+          </div>
+        </div>
         {loading ? (
           <div className="text-center">Load data...</div>
         ) : (
