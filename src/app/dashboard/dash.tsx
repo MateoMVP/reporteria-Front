@@ -120,12 +120,14 @@ function Dashboard() {
       toast.update(toastId, {
         render: "Success.",
         autoClose: 3000,
+        type: "success",
       });
     } catch (error: any) {
       console.error("Error al generar el reporte:", error);
       toast.update(toastId, {
         render: "Error.",
         autoClose: 5000,
+        type: "error",
       });
     } finally {
       setDownloadProgress(null);
@@ -146,6 +148,72 @@ function Dashboard() {
         `/reportes/pdf?minDate=${minDate}&maxDate=${maxDate}`,
         {
           responseType: "blob",
+          onDownloadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / (progressEvent?.total || 1)
+            );
+            setDownloadProgress(percentCompleted);
+            const formatBytes = (bytes) => {
+              if (bytes === 0) return "0 Bytes";
+              const k = 1024;
+              const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+              const i = Math.floor(Math.log(bytes) / Math.log(k));
+              const size = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
+              return `${size} ${sizes[i]}`;
+            };
+
+            // Supongamos que tienes el tamaño total en bytes
+            const totalBytes = progressEvent.total;
+
+            // Actualizar el toast
+            toast.update(toastId, {
+              bodyClassName: "p-4 bg-white rounded shadow-lg w-80",
+              render: (
+                <div className="">
+                  <div className="mb-4">
+                    <p className="text-lg font-semibold text-gray-800">
+                      Downloading...
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <progress
+                      style={{
+                        width: "100%",
+                        height: "0.75rem",
+                        borderRadius: "0.25rem",
+                        backgroundColor: "#cbcbcb",
+                      }}
+                      value={percentCompleted}
+                      max={100}
+                      aria-valuenow={percentCompleted}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                    />
+                    <div className="flex justify-between mt-1 text-sm text-gray-600">
+                      <span>{percentCompleted}%</span>
+                      <span>
+                        {formatBytes(progressEvent.loaded)} /{" "}
+                        {formatBytes(totalBytes)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-700">
+                    <span>Please wait...</span>
+                    <span>Downloaded:</span>
+                    <span>{formatBytes(progressEvent.loaded)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-700 mt-1">
+                    <span>Total Size:</span>
+                    <span>{formatBytes(totalBytes)}</span>
+                  </div>
+                </div>
+              ),
+              autoClose: false,
+              type: "info",
+              closeButton: false,
+              draggable: false,
+            });
+          },
         }
       );
       // Crear una URL para el blob recibido
@@ -166,6 +234,7 @@ function Dashboard() {
       toast.update(toastId, {
         render: "Success.",
         autoClose: 3000,
+        type: "success",
       });
     } catch (error) {
       console.error("Error al descargar el archivo:", error);
