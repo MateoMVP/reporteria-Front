@@ -406,7 +406,7 @@ function Dashboard() {
             />
           </div>
         </div>
-        {currentUsername === "cosas" && (
+        {currentUsername === "EdwinR" && (
           <div>
             <button
               type="button"
