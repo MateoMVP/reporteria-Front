@@ -34,11 +34,10 @@ function Login() {
           closeOnClick: true,
           transition: Bounce,
         });
-        const { token,username } = response.data;
-        console.log("Se recibió el token", token);
+        const { token, username } = response.data;
         Cookies.set("authToken", token);
-        Cookies.set("username",username)
-        router.push("/dashboard");
+        Cookies.set("username", username);
+        router.replace("/dashboard");
       } else {
         console.error("Error de autenticación");
         toast.error("Login error", {

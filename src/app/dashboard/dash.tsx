@@ -411,12 +411,22 @@ function Dashboard() {
             <button
               type="button"
               onClick={donwloadExcelBuffer}
-              className="text-center p-2 bg-green-700 active:bg-green-300  hover:bg-green-600 rounded"
+              className="text-center text-white p-2 bg-green-700 active:bg-green-300  hover:bg-green-600 rounded"
             >
               Download Excel
             </button>
           </div>
         )}
+        <div>
+          <button
+            type="button"
+            className="text-center p-2 bg-blue-700  active:bg-blue-300  hover:bg-blue-600 rounded"
+          >
+            <a download href="apk-redbox.apk" className="text-white">
+              Download Apk
+            </a>
+          </button>
+        </div>
       </div>
 
       <div className="w-full max-w-6xl bg-white shadow-md rounded-lg overflow-hidden">
