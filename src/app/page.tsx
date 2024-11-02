@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import AXIOS from "./config/axios";
 import Cookies from "js-cookie";
 import type { UserInterface } from "./interfaces/User";
@@ -17,6 +17,7 @@ function Login() {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.currentTarget.value);
   };
+  const [auth, setAuth] = useState(false);
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +38,7 @@ function Login() {
         const { token, username } = response.data;
         Cookies.set("authToken", token);
         Cookies.set("username", username);
-        router.replace("/dashboard");
+        setAuth(true);
       } else {
         console.error("Error de autenticación");
         toast.error("Login error", {
@@ -65,7 +66,11 @@ function Login() {
       });
     }
   };
-
+  useEffect(() => {
+    if (auth) {
+      router.replace("/dashboard");
+    }
+  }, [auth]);
   return (
     <>
       <ToastContainer />
