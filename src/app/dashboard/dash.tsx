@@ -149,10 +149,10 @@ function Dashboard() {
         {
           responseType: "blob",
           onDownloadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / (progressEvent?.total || 1)
-            );
-            setDownloadProgress(percentCompleted);
+            // const percentCompleted = Math.round(
+            //   (progressEvent.loaded * 100) / (progressEvent?.total || 1)
+            // );
+            // setDownloadProgress(percentCompleted);
             const formatBytes = (bytes) => {
               if (bytes === 0) return "0 Bytes";
               const k = 1024;
@@ -161,9 +161,6 @@ function Dashboard() {
               const size = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
               return `${size} ${sizes[i]}`;
             };
-
-            // Supongamos que tienes el tamaño total en bytes
-            const totalBytes = progressEvent.total;
 
             // Actualizar el toast
             toast.update(toastId, {
@@ -175,36 +172,11 @@ function Dashboard() {
                       Downloading...
                     </p>
                   </div>
-                  <div className="mb-4">
-                    <progress
-                      style={{
-                        width: "100%",
-                        height: "0.75rem",
-                        borderRadius: "0.25rem",
-                        backgroundColor: "#cbcbcb",
-                      }}
-                      value={percentCompleted}
-                      max={100}
-                      aria-valuenow={percentCompleted}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                    />
-                    <div className="flex justify-between mt-1 text-sm text-gray-600">
-                      <span>{percentCompleted}%</span>
-                      <span>
-                        {formatBytes(progressEvent.loaded)} /{" "}
-                        {formatBytes(totalBytes)}
-                      </span>
-                    </div>
-                  </div>
+                  <div className="mb-4"></div>
                   <div className="flex justify-between text-sm text-gray-700">
                     <span>Please wait...</span>
                     <span>Downloaded:</span>
                     <span>{formatBytes(progressEvent.loaded)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-700 mt-1">
-                    <span>Total Size:</span>
-                    <span>{formatBytes(totalBytes)}</span>
                   </div>
                 </div>
               ),
